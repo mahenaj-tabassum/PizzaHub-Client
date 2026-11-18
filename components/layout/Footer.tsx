@@ -109,7 +109,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="flex size-9 items-center justify-center rounded-full border border-white/20 text-white/80 transition-colors hover:border-honey hover:bg-honey hover:text-ink"
+                  className="flex size-9 items-center justify-center rounded-full border border-white/20 text-white/80 transition-colors hover:border-honey hover:bg-honey hover:text-foreground"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -126,7 +126,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-6 text-center text-sm text-white/60 sm:text-left">
-          © {new Date().getFullYear()} PizzaHub. All rights reserved.
+          © 2026 PizzaHub. All rights reserved.
         </div>
       </div>
     </footer>

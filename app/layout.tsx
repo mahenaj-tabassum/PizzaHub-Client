@@ -1,30 +1,40 @@
-import { Metadata } from "next";
-import { DM_Sans, Fraunces } from "next/font/google";
+import type { Metadata } from "next";
+import { Fraunces, DM_Sans } from "next/font/google";
+import Providers from "@/components/shared/Providers";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-heading",
+  display: "swap",
 });
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "PizzaHub — Hot & Fresh Pizza Delivered",
+  title: {
+    default: "PizzaHub — Hot & Fresh Pizza Delivered to Your Door",
+    template: "%s | PizzaHub",
+  },
   description:
-    "Discover local pizza shops, browse menus, and place your order in a few taps.",
+    "Discover local pizza shops, browse their menus, and place your order in a few taps.",
 };
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html className={`${fraunces.variable} ${dmSans.variable}`} lang="en">
-      <body className="antialiased">
-        <Navbar />
-        <main>{children}</main>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${fraunces.variable} ${dmSans.variable}`}
+    >
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
