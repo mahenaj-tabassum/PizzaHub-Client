@@ -10,6 +10,7 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
+import ThemeToggle from "@/components/shared/ThemeToggle";
 import { cn } from "@/lib/utils";
 
 type NavLink = { href: string; label: string };
@@ -45,6 +46,8 @@ export default function MobileNav({ links }: { links: NavLink[] }) {
                 {l.label}
               </Link>
             ))}
+
+            <ThemeToggle variant="row" />
 
             <Link
               href="/signin"

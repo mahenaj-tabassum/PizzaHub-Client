@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { buttonVariants } from "@/components/ui/button";
+import ThemeToggle from "@/components/shared/ThemeToggle";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 import MobileNav from "./MobileNav";
@@ -65,9 +65,10 @@ export default function Navbar() {
         <div className="flex items-center justify-end gap-3">
           {/* Desktop buttons */}
           <div className="hidden items-center gap-3 md:flex">
+			<ThemeToggle />
             <Link
               href="/signin"
-              className="inline-flex h-10 items-center justify-center rounded-full border border-white/60 px-6 text-sm font-medium text-white transition-all duration-200 hover:border-[#F8EFE4] hover:bg-[#F8EFE4] hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary active:scale-95"
+              className="inline-flex h-10 items-center justify-center rounded-full border border-white/60 px-6 text-sm font-medium text-white transition-all duration-200 hover:border-cream hover:bg-cream hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-primary active:scale-95"
             >
               Sign In
             </Link>

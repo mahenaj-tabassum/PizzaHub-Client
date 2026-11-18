@@ -8,7 +8,7 @@ const Logo = ({ light = true }: { light?: boolean }) => {
         <Pizza className="size-4" />
       </span>
       <span
-        className={`font-heading text-xl font-bold ${light ? "text-white" : "text-ink"}`}
+        className={`font-heading text-xl font-bold ${light ? "text-white" : "text-foreground"}`}
       >
         PizzaHub
       </span>
