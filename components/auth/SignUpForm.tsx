@@ -10,6 +10,7 @@ import AuthShell from "./AuthShell";
 import GoogleButton from "./GoogleButton";
 import RoleSelect, { type AccountRole } from "./RoleSelect";
 import PasswordStrength, { isPasswordValid } from "./PasswordStrength";
+import Image from "next/image";
 
 export default function SignUpForm() {
   const [role, setRole] = useState<AccountRole>("customer");
@@ -201,8 +202,10 @@ export default function SignUpForm() {
           {/* Optional profile image */}
           <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-[#dfc29e] bg-[#fbf5eb] p-4 transition hover:bg-white">
             {imagePreview ? (
-              <img
+              <Image
                 src={imagePreview}
+                width={48}
+                height={48}
                 alt="Profile preview"
                 className="size-12 rounded-full object-cover"
               />

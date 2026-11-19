@@ -18,7 +18,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         newestOnTop
         closeOnClick
         pauseOnHover
-        theme="colored"
       />
     </ThemeProvider>
   );
