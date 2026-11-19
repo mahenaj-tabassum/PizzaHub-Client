@@ -21,7 +21,7 @@ export default function HeroSearch() {
   };
 
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full max-w-[600px]">
       <form
         onSubmit={handleSubmit}
         className="flex items-center gap-2 rounded-full bg-white p-1.5 shadow-lg shadow-black/20"

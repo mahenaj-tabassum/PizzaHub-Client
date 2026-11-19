@@ -28,7 +28,7 @@ const HeroBanner = () => {
 
       {/* Content */}
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-xl">
+        <div className="max-w-[600px]">
           <Reveal>
             <p className="mb-3 text-sm font-medium text-secondary">
               Fresh from local ovens
