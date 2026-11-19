@@ -1,0 +1,58 @@
+import type { MenuItem } from "@/types";
+
+export const MOCK_FEATURED_ITEMS: MenuItem[] = [
+  {
+    _id: "mock-1",
+    itemName: "Margherita Classica",
+    category: "classic",
+    price: 12.5,
+    location: "Agrabad, Chattogram",
+    images: [],
+    vendor: { name: "Nonna's Kitchen", isPremium: true },
+  },
+  {
+    _id: "mock-2",
+    itemName: "Garden Harvest",
+    category: "vegetarian",
+    price: 13,
+    location: "GEC Circle, Chattogram",
+    images: [],
+    vendor: { name: "Green Crust", isPremium: true },
+  },
+  {
+    _id: "mock-3",
+    itemName: "Triple Pepperoni",
+    category: "meat-lovers",
+    price: 15.5,
+    location: "Khulshi, Chattogram",
+    images: [],
+    vendor: { name: "Fire & Flour", isPremium: false },
+  },
+  {
+    _id: "mock-4",
+    itemName: "Truffle Mushroom",
+    category: "specialty",
+    price: 18,
+    location: "Agrabad, Chattogram",
+    images: [],
+    vendor: { name: "Nonna's Kitchen", isPremium: true },
+  },
+  {
+    _id: "mock-5",
+    itemName: "Garlic Cheese Bread",
+    category: "sides",
+    price: 5.5,
+    location: "Khulshi, Chattogram",
+    images: [],
+    vendor: { name: "Fire & Flour", isPremium: false },
+  },
+  {
+    _id: "mock-6",
+    itemName: "Chocolate Lava Cake",
+    category: "drinks",
+    price: 6,
+    location: "GEC Circle, Chattogram",
+    images: [],
+    vendor: { name: "Green Crust", isPremium: false },
+  },
+];
