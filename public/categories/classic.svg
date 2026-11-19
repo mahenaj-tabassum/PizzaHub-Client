@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="title desc">
+<title id="title">Classic pizza illustration</title><desc id="desc">A golden cheese pizza slice with tomato and basil.</desc>
+<g stroke="#70452F" stroke-width="7" stroke-linejoin="round">
+<path d="M72 222 185 43q8-13 17 0l126 179q8 13-8 17L91 252q-24 4-19-30Z" fill="#E8A34B"/>
+<path d="m91 220 101-157 108 157Z" fill="#F7D98F"/>
+<path d="M94 220q103-19 206 0" fill="none" stroke="#C87836" stroke-width="11"/>
+<g fill="#C94D35" stroke="#A43B2C"><circle cx="167" cy="142" r="15"/><circle cx="231" cy="183" r="14"/><circle cx="205" cy="104" r="13"/></g>
+<g fill="#4F7D4A" stroke="#3D663C" stroke-width="4"><path d="M145 185q-21-30 11-34 7 20-11 34Z"/><path d="M252 137q-4-27 23-19-2 23-23 19Z"/></g>
+</g><path d="M72 222q-4 28 19 30" fill="none" stroke="#B96E36" stroke-width="12" stroke-linecap="round"/>
+</svg>

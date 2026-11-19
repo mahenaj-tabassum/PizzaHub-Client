@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="title desc">
+<title id="title">Meat lovers pizza illustration</title><desc id="desc">A hearty pizza topped with pepperoni, sausage and bacon.</desc>
+<circle cx="200" cy="151" r="112" fill="#D98C43" stroke="#70452F" stroke-width="8"/>
+<circle cx="200" cy="151" r="96" fill="#F5D58B" stroke="#B96E36" stroke-width="7"/>
+<g fill="#B84432" stroke="#873426" stroke-width="5">
+<circle cx="155" cy="104" r="19"/><circle cx="228" cy="100" r="17"/><circle cx="270" cy="157" r="19"/><circle cx="205" cy="174" r="20"/><circle cx="133" cy="181" r="17"/><circle cx="235" cy="220" r="15"/>
+</g>
+<g fill="#9A5637" stroke="#70452F" stroke-width="5" stroke-linejoin="round">
+<path d="m177 122 26-8 13 13-11 16-25-4Z"/><path d="m105 143 25-10 15 12-8 17-27-2Z"/>
+<path d="m244 184 27-7 12 13-14 17-24-7Z"/>
+</g>
+<g fill="none" stroke="#E9A75A" stroke-width="5" stroke-linecap="round"><path d="m148 101 12 5m-9 8 13 4m61-28 10 6m-2 8 11 4m30 45 10 7m-6 8 11 5m-79 5 12 6m-7 8 13 5"/></g>
+</svg>

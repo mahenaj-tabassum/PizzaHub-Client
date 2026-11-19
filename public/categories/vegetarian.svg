@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="title desc">
+<title id="title">Vegetarian pizza illustration</title><desc id="desc">A colorful vegetable pizza with peppers, olives, mushrooms and greens.</desc>
+<circle cx="200" cy="151" r="112" fill="#D98C43" stroke="#70452F" stroke-width="8"/>
+<circle cx="200" cy="151" r="96" fill="#F6D88F" stroke="#B96E36" stroke-width="7"/>
+<g stroke="#70452F" stroke-width="5" stroke-linejoin="round">
+<path d="M130 95q18-20 34 0l-5 26h-27Z" fill="#E9E1C8"/><path d="M124 95q23-16 44 0" fill="none"/>
+<path d="M216 82q20-12 30 9l-10 24-24-8Z" fill="#D64D35"/>
+<path d="M260 150q17-14 31 5l-9 24-25-7Z" fill="#5C8C4E"/>
+<path d="M152 174q15-18 30-2l-2 27-28-2Z" fill="#E0A13D"/>
+<path d="M208 197q-8-22 15-27 17 14 3 31Z" fill="#D64D35"/>
+</g>
+<g fill="#3D342C"><circle cx="184" cy="117" r="9"/><circle cx="242" cy="140" r="9"/><circle cx="187" cy="177" r="9"/><circle cx="126" cy="145" r="8"/></g>
+<g fill="#4F7D4A"><path d="M170 133q-22-26 5-31 15 17-5 31Z"/><path d="M230 166q-10-30 17-26 8 19-17 26Z"/><path d="M157 211q-8-27 17-24 8 18-17 24Z"/></g>
+</svg>

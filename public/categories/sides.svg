@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="title desc">
+<title id="title">Sides and appetizers illustration</title><desc id="desc">A serving basket of golden fries with a small dipping sauce.</desc>
+<path d="M88 130h208l-23 119q-4 17-22 17H133q-18 0-22-17Z" fill="#D98C43" stroke="#70452F" stroke-width="8" stroke-linejoin="round"/>
+<path d="M102 150h180" stroke="#F6DDA1" stroke-width="8" stroke-linecap="round"/>
+<g stroke="#A96A2F" stroke-width="6" stroke-linejoin="round">
+<path d="m112 142 4-94q1-15 16-13l13 2 4 106Z" fill="#F5C45D"/>
+<path d="m151 142 3-111q0-15 15-14l13 2 2 123Z" fill="#F8D16F"/>
+<path d="m191 142-2-101q0-15 15-14l13 1 6 114Z" fill="#F4BD4E"/>
+<path d="m230 142-4-91q-1-15 14-16l13-1 12 108Z" fill="#F8D16F"/>
+</g>
+<path d="M260 91q36-23 63 1l-8 59h-53Z" fill="#C94D35" stroke="#70452F" stroke-width="7"/>
+<path d="M263 92q29 14 59 0" fill="none" stroke="#F7D98F" stroke-width="6"/>
+<path d="M112 186h176" stroke="#B96E36" stroke-width="6" opacity=".65"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="title desc">
+<title id="title">Beverages and desserts illustration</title><desc id="desc">A chilled orange drink beside a slice of layered cake.</desc>
+<g stroke="#70452F" stroke-width="7" stroke-linejoin="round">
+<path d="M77 79h104l-10 166q-1 13-15 13h-54q-14 0-15-13Z" fill="#F8E8C8"/>
+<path d="M82 125h94l-6 118q-1 10-13 10h-55q-12 0-13-10Z" fill="#E99A3C"/>
+<path d="m139 77 26-42" fill="none" stroke="#C94D35" stroke-width="9" stroke-linecap="round"/>
+<path d="M94 149q30 15 66 0" fill="none" stroke="#FFD77A" stroke-width="6"/>
+<path d="M220 214 285 94l70 120Z" fill="#F2D39A"/>
+<path d="m239 178 46-84 48 84Z" fill="#8D4B35"/>
+<path d="m220 214 135 0-9 29q-4 13-17 13h-83q-15 0-19-13Z" fill="#E7A45C"/>
+<path d="M240 177h96" stroke="#FFF0D2" stroke-width="10" stroke-linecap="round"/>
+<path d="M283 94q-6-25 18-31 19 10 8 31" fill="#C94D35"/>
+</g>
+<circle cx="123" cy="180" r="8" fill="#FFF0D2"/><circle cx="146" cy="211" r="7" fill="#FFF0D2"/>
+</svg>

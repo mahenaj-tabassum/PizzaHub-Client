@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="title desc">
+<title id="title">Gourmet pizza illustration</title><desc id="desc">An elegant artisan pizza with arugula, mushrooms and specialty cheese.</desc>
+<circle cx="200" cy="151" r="112" fill="#D58A45" stroke="#70452F" stroke-width="8"/>
+<circle cx="200" cy="151" r="95" fill="#F6DDA1" stroke="#B96E36" stroke-width="7"/>
+<g stroke="#70452F" stroke-width="5" stroke-linejoin="round">
+<path d="M128 112q2-26 25-22 24 6 15 29l-17 14-20-6Z" fill="#C6A27A"/>
+<path d="M224 91q5-24 27-15 21 10 8 31l-21 10-17-10Z" fill="#C6A27A"/>
+<path d="M242 180q3-24 25-20 20 8 10 28l-21 12-15-8Z" fill="#C6A27A"/>
+<path d="M144 183q-5-21 17-27 21 10 13 29l-18 12Z" fill="#E9C96F"/>
+</g>
+<g fill="#4F7D4A" stroke="#3D663C" stroke-width="3"><path d="M178 116q-25-37 7-36 15 19-7 36Z"/><path d="M190 123q-2-35 25-25-2 23-25 25Z"/><path d="M192 201q-25-28 2-37 18 19-2 37Z"/><path d="M282 137q-24-29 3-36 16 20-3 36Z"/></g>
+<g fill="#A64C37"><circle cx="179" cy="157" r="8"/><circle cx="221" cy="143" r="7"/><circle cx="128" cy="157" r="7"/></g>
+<g fill="#FFF1C9"><path d="M204 177q13-16 23-2-2 16-17 14Z"/><path d="M159 83q12-11 20 1l-8 12Z"/></g>
+</svg>
