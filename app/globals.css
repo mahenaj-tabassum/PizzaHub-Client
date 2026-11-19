@@ -49,7 +49,7 @@
   --card-foreground: #f8efe4;
   --popover: #241512;
   --popover-foreground: #f8efe4;
-  --primary: #c0373c;
+  --primary: #2e0405;
   --primary-foreground: #ffffff;
   --secondary: #e0a458;
   --secondary-foreground: #241512;
@@ -135,4 +135,37 @@
   html {
     @apply font-sans;
   }
+}
+
+
+
+
+/* PizzaHub Authentication Inputs ********************************************/
+
+.auth-input {
+  display: block;
+  width: 100%;
+  height: 52px;
+  border: 1px solid #e2c8a8;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 0 16px;
+  color: #301c17;
+  font-size: 15px;
+  outline: none;
+  transition: all 200ms ease;
+}
+
+.auth-input::placeholder {
+  color: #99918c;
+}
+
+.auth-input:focus {
+  border-color: #981e24;
+  box-shadow: 0 0 0 3px rgba(152, 30, 36, 0.1);
+}
+
+.auth-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
