@@ -20,7 +20,10 @@ function PizzaPlaceholder() {
 }
 
 export default function MenuCard({ item }: { item: MenuItem }) {
-  const image = item.images[0];
+  const image = item.images?.[0];
+
+  const vendorName =
+    item.vendor?.businessName ?? item.vendor?.name ?? "Local restaurant";
 
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-xl bg-card shadow-sm ring-1 ring-foreground/10 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
@@ -36,7 +39,8 @@ export default function MenuCard({ item }: { item: MenuItem }) {
         ) : (
           <PizzaPlaceholder />
         )}
-        {item.vendor.isPremium && (
+
+        {item.vendor?.isPremium && (
           <Badge variant="secondary" className="absolute left-3 top-3">
             Premium
           </Badge>
@@ -47,17 +51,20 @@ export default function MenuCard({ item }: { item: MenuItem }) {
         <p className="text-xs text-muted-foreground">
           {getCategoryLabel(item.category)}
         </p>
+
         <h3 className="mt-1 line-clamp-1 font-heading text-lg font-semibold leading-snug">
           {item.itemName}
         </h3>
+
         <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">
-          {item.vendor.name} · {item.location}
+          {vendorName} · {item.location}
         </p>
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-4">
           <span className="font-heading text-lg font-bold text-primary">
             {formatPrice(item.price)}
           </span>
+
           <Link
             href={`/menu/${item._id}`}
             className={cn(

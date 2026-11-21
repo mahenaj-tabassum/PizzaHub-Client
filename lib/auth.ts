@@ -20,7 +20,7 @@ export const auth = betterAuth({
 
   secret: process.env.BETTER_AUTH_SECRET,
 
-  trustedOrigins: [process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"],
+  trustedOrigins: [process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"],
 
   database: mongodbAdapter(db, { client }),
 
@@ -96,5 +96,16 @@ export const auth = betterAuth({
         },
       },
     },
+  },
+  businessName: {
+    type: "string",
+    required: false,
+    input: false,
+  },
+
+  subscriptionExpiresAt: {
+    type: "date",
+    required: false,
+    input: false,
   },
 });

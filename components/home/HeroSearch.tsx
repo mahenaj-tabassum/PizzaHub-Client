@@ -13,20 +13,31 @@ export default function HeroSearch() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     const params = new URLSearchParams();
-    if (query.trim()) params.set("search", query.trim());
-    if (category) params.set("category", category);
+
+    if (query.trim()) {
+      params.set("q", query.trim());
+    }
+
+    const selected = CATEGORIES.find((c) => c.slug === category);
+
+    if (selected) {
+      params.set("category", selected.value);
+    }
+
     const qs = params.toString();
     router.push(qs ? `/menu?${qs}` : "/menu");
   };
 
   return (
-    <div className="w-full max-w-[600px]">
+    <div className="w-full max-w-150">
       <form
         onSubmit={handleSubmit}
         className="flex items-center gap-2 rounded-full bg-white p-1.5 shadow-lg shadow-black/20"
       >
         <Search className="ml-3 size-4 shrink-0 text-muted-foreground" />
+
         <input
           type="text"
           value={query}
@@ -35,6 +46,7 @@ export default function HeroSearch() {
           aria-label="Search pizza"
           className="h-10 min-w-0 flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-muted-foreground"
         />
+
         <button
           type="submit"
           className="h-10 shrink-0 cursor-pointer rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:bg-primary/90 active:scale-95"
@@ -48,6 +60,7 @@ export default function HeroSearch() {
         <Chip active={category === ""} onClick={() => setCategory("")}>
           All
         </Chip>
+
         {CATEGORIES.map((c) => (
           <Chip
             key={c.slug}
