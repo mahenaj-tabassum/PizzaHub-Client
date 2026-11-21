@@ -116,3 +116,5 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
     },
   },
 ];
+
+export const MOCK_FEATURED_ITEMS: MenuItem[] = MOCK_MENU_ITEMS.slice(0, 6);
