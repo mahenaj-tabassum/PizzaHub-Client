@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import type { MenuItem } from "@/types"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -26,4 +27,10 @@ export function formatDate(date: string | Date) {
     month: "short",
     year: "numeric",
   }).format(new Date(date));
+}
+
+export function getVendorName(item: Pick<MenuItem, "vendorInfo">) {
+  return (
+    item.vendorInfo?.businessName || item.vendorInfo?.name || "Local restaurant"
+  );
 }
