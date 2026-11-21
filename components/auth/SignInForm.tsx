@@ -46,6 +46,16 @@ export default function SignInForm() {
 
       toast.success("Welcome back!");
 
+      const callbackUrl = new URLSearchParams(window.location.search).get(
+        "callbackUrl",
+      );
+      const isSafe =
+        callbackUrl?.startsWith("/") && !callbackUrl.startsWith("//");
+
+      window.location.href = isSafe
+        ? callbackUrl!
+        : getDashboard(data.user.role ?? "customer");
+
       const role = data.user.role;
 
       window.location.href = getDashboard(role ?? "customer");

@@ -1,3 +1,5 @@
+import type { UserRole } from "@/types";
+
 export const CATEGORIES = [
   { label: "Classic Pizzas", short: "Classic", slug: "classic" },
   { label: "Vegetarian Pizzas", short: "Vegetarian", slug: "vegetarian" },
@@ -14,3 +16,14 @@ const IMAGE_EXT = "svg";
 
 export const getCategoryImage = (slug: string) =>
   `/categories/${slug}.${IMAGE_EXT}`;
+
+export const getDashboardPath = (role?: string | null) => {
+  switch (role as UserRole) {
+    case "vendor":
+      return "/dashboard/vendor";
+    case "admin":
+      return "/dashboard/admin";
+    default:
+      return "/dashboard/customer";
+  }
+};
