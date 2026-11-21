@@ -40,8 +40,8 @@ export default function SignInForm() {
         password,
       });
 
-      if (error) {
-        throw new Error(error.message);
+      if (error || !data) {
+        throw new Error(error?.message || "Invalid email or password.");
       }
 
       toast.success("Welcome back!");
@@ -50,20 +50,17 @@ export default function SignInForm() {
         "callbackUrl",
       );
       const isSafe =
-        callbackUrl?.startsWith("/") && !callbackUrl.startsWith("//");
+        !!callbackUrl &&
+        callbackUrl.startsWith("/") &&
+        !callbackUrl.startsWith("//");
 
       window.location.href = isSafe
-        ? callbackUrl!
+        ? callbackUrl
         : getDashboard(data.user.role ?? "customer");
-
-      const role = data.user.role;
-
-      window.location.href = getDashboard(role ?? "customer");
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Unable to sign in.",
       );
-    } finally {
       setLoading(false);
     }
   };

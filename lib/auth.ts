@@ -17,9 +17,26 @@ if (!process.env.BETTER_AUTH_URL) {
   throw new Error("BETTER_AUTH_URL is not configured");
 }
 
-const client = new MongoClient(mongoUri);
+// Reuse one MongoClient across hot reloads and serverless invocations
+const globalForMongo = globalThis as unknown as {
+  _pizzaHubMongo?: MongoClient;
+};
+
+const client = globalForMongo._pizzaHubMongo ?? new MongoClient(mongoUri);
+globalForMongo._pizzaHubMongo = client;
 
 const db = client.db(process.env.DB_NAME || "PizzaHub-FullStack");
+
+// Production domain + local dev (duplicates and empty values removed)
+const trustedOrigins = Array.from(
+  new Set(
+    [
+      process.env.BETTER_AUTH_URL,
+      process.env.NEXT_PUBLIC_APP_URL,
+      "http://localhost:3000",
+    ].filter((origin): origin is string => Boolean(origin)),
+  ),
+);
 
 export const auth = betterAuth({
   appName: "PizzaHub",
@@ -28,8 +45,7 @@ export const auth = betterAuth({
 
   secret: process.env.BETTER_AUTH_SECRET,
 
-  // Your frontend is currently running locally.
-  trustedOrigins: ["http://localhost:3000"],
+  trustedOrigins,
 
   database: mongodbAdapter(db, { client }),
 
@@ -106,6 +122,7 @@ export const auth = betterAuth({
     user: {
       create: {
         before: async (user) => {
+          // Only "vendor" or "customer" can be requested. Admin is never allowed here.
           const role = user.requestedRole === "vendor" ? "vendor" : "customer";
 
           return {

@@ -6,6 +6,7 @@ import type {
   MenuItem,
   SingleMenuItemResponse,
   MenuListResponse,
+  FeaturedMenuResponse,
 } from "@/types";
 
 const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, "");
@@ -70,3 +71,17 @@ export const getMenuItem = cache(
     return json.data ?? null;
   },
 );
+
+export async function getFeaturedItems(): Promise<MenuItem[]> {
+  try {
+    const res = await fetch(`${API_URL}/api/menu/featured`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+
+    const json: FeaturedMenuResponse = await res.json();
+    return Array.isArray(json.data) ? json.data : [];
+  } catch {
+    return [];
+  }
+}

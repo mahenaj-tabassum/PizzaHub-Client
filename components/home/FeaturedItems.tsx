@@ -1,18 +1,16 @@
-import { MOCK_FEATURED_ITEMS } from "@/lib/mock-data";
-import { MenuItem } from "@/types";
-import React from "react";
-import Reveal from "../shared/Reveal";
-import SectionHeading from "../shared/SectionHeading";
-import MenuGrid from "../menu/MenuGrid";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "../ui/button";
 
-const FeaturedItems = ({
-  items = MOCK_FEATURED_ITEMS,
-}: {
-  items?: MenuItem[];
-}) => {
+import MenuGrid from "@/components/menu/MenuGrid";
+import EmptyState from "@/components/shared/EmptyState";
+import Reveal from "@/components/shared/Reveal";
+import SectionHeading from "@/components/shared/SectionHeading";
+import { buttonVariants } from "@/components/ui/button";
+import { getFeaturedItems } from "@/lib/api-server";
+import { cn } from "@/lib/utils";
+
+const FeaturedItems = async () => {
+  const items = (await getFeaturedItems()).slice(0, 6);
+
   return (
     <section className="pb-16 pt-6 md:pb-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -24,7 +22,16 @@ const FeaturedItems = ({
           />
         </Reveal>
 
-        <MenuGrid items={items} />
+        {items.length > 0 ? (
+          <MenuGrid items={items} />
+        ) : (
+          <EmptyState
+            title="No featured items yet"
+            description="Check back soon, or browse the full menu."
+            actionLabel="Browse menu"
+            actionHref="/menu"
+          />
+        )}
 
         <Reveal className="mt-10 flex justify-center">
           <Link

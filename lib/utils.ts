@@ -48,3 +48,23 @@ export function formatLongDate(value: string) {
     year: "numeric",
   }).format(date);
 }
+
+// "2026-11-24" → "24 Nov 2026"
+export function formatShortDate(value: string) {
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(value)
+    ? new Date(`${value}T00:00:00`)
+    : new Date(value);
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
+
+export function getSnapshotVendorName(v?: {
+  name?: string;
+  businessName?: string;
+}) {
+  return v?.businessName || v?.name || "Restaurant";
+}

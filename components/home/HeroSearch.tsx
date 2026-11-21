@@ -14,7 +14,7 @@ export default function HeroSearch() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();
-    if (query.trim()) params.set("search", query.trim());
+    if (query.trim()) params.set("q", query.trim());
     if (category) params.set("category", category);
     const qs = params.toString();
     router.push(qs ? `/menu?${qs}` : "/menu");

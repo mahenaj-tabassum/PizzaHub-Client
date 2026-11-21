@@ -1,9 +1,7 @@
-import React from 'react'
+import CustomerOverview from "@/components/dashboard/CustomerOverview";
+import { requireRole } from "@/lib/session";
 
-const CustomerDashboard = () => {
-  return (
-	<div>CustomerDashboard</div>
-  )
+export default async function CustomerDashboard() {
+  const user = await requireRole("customer");
+  return <CustomerOverview firstName={user.name.split(" ")[0]} />;
 }
-
-export default CustomerDashboard

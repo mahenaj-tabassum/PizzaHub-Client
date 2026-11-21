@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 
 import ThemeToggle from "@/components/shared/ThemeToggle";
@@ -12,10 +13,19 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { NAV_BY_ROLE } from "./nav-config";
 import { SidebarContent, type DashboardUser } from "./Sidebar";
 
 export default function DashboardHeader({ user }: { user: DashboardUser }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // সবচেয়ে লম্বা মিলে যাওয়া href কেই বর্তমান পেজ ধরা হয়
+  const current = [...NAV_BY_ROLE[user.role]]
+    .sort((a, b) => b.href.length - a.href.length)
+    .find(
+      (item) => pathname === item.href || pathname.startsWith(`${item.href}/`),
+    );
 
   const initials = user.name
     .split(" ")
@@ -25,7 +35,7 @@ export default function DashboardHeader({ user }: { user: DashboardUser }) {
     .toUpperCase();
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/90 px-4 backdrop-blur sm:px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-card px-4 sm:px-8">
       <div className="flex items-center gap-2">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger
@@ -38,15 +48,19 @@ export default function DashboardHeader({ user }: { user: DashboardUser }) {
             <Menu className="size-5" />
           </SheetTrigger>
 
-          <SheetContent side="left" className="w-70 bg-sidebar p-0">
+          <SheetContent
+            side="left"
+            showCloseButton={false}
+            className="w-72 max-w-[85vw] border-none bg-primary p-0"
+          >
             <SheetTitle className="sr-only">Dashboard navigation</SheetTitle>
             <SidebarContent user={user} onNavigate={() => setOpen(false)} />
           </SheetContent>
         </Sheet>
 
-        <h1 className="font-heading text-lg font-semibold capitalize">
-          {user.role} Dashboard
-        </h1>
+        <p className="font-heading text-xl font-bold">
+          {current?.label ?? "Dashboard"}
+        </p>
       </div>
 
       <div className="flex items-center gap-3">
@@ -57,21 +71,16 @@ export default function DashboardHeader({ user }: { user: DashboardUser }) {
             <img
               src={user.image}
               alt={user.name}
-              className="size-9 rounded-full object-cover"
+              className="size-10 rounded-full object-cover"
             />
           ) : (
-            <span className="flex size-9 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+            <span className="flex size-10 items-center justify-center rounded-full bg-secondary text-sm font-bold text-secondary-foreground">
               {initials}
             </span>
           )}
-          <div className="hidden min-w-0 sm:block">
-            <p className="max-w-40 truncate text-sm font-medium leading-tight">
-              {user.name}
-            </p>
-            <p className="max-w-40 truncate text-xs text-muted-foreground">
-              {user.email}
-            </p>
-          </div>
+          <span className="hidden max-w-40 truncate text-sm font-medium sm:block">
+            {user.name}
+          </span>
         </div>
       </div>
     </header>

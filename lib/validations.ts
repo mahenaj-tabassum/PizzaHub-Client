@@ -23,4 +23,19 @@ export const orderSchema = z.object({
   message: z.string().max(500, "Message must be 500 characters or fewer."),
 });
 
+export const profileSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Name must be at least 2 characters.")
+    .max(60, "Name must be 60 characters or fewer."),
+  businessName: z
+    .string()
+    .trim()
+    .max(80, "Business name must be 80 characters or fewer.")
+    .optional(),
+});
+
+export type ProfileFormValues = z.infer<typeof profileSchema>;
+
 export type OrderFormValues = z.infer<typeof orderSchema>;

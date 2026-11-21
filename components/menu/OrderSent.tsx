@@ -7,88 +7,16 @@ import { Check, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 import OrderStatusBadge from "@/components/dashboard/OrderStatusBadge";
+import OrderTimeline from "@/components/dashboard/OrderTimeline";
 import OrderStepper from "@/components/menu/OrderStepper";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import ConfirmDialog from "@/components/shared/ConfirmDialog";
+import DetailRow from "@/components/shared/DetailRow";
 import ErrorState from "@/components/shared/ErrorState";
+
 import { apiFetch } from "@/lib/api";
 import { cn, formatLongDate, formatPrice } from "@/lib/utils";
-import type { Order, OrderStatus } from "@/types";
-
-function Timeline({ status }: { status: OrderStatus }) {
-  const pending = status === "pending";
-  const cancelled = status === "cancelled";
-
-  const steps = [
-    {
-      title: "Order sent",
-      text: "Your order reached the restaurant.",
-      state: "done",
-    },
-    {
-      title: "Restaurant review",
-      text: pending
-        ? "Waiting for the restaurant to accept or reject. Status: Pending."
-        : cancelled
-          ? "This order was cancelled before review."
-          : "The restaurant has reviewed your order.",
-      state: pending ? "active" : "done",
-    },
-    {
-      title: cancelled ? "Order cancelled" : "Accepted or rejected",
-      text: pending
-        ? "The result will appear in My Orders."
-        : cancelled
-          ? "You cancelled this order."
-          : `Your order was ${status}.`,
-      state: pending ? "todo" : "done",
-    },
-  ] as const;
-
-  return (
-    <ol>
-      {steps.map((step, i) => (
-        <li key={step.title} className="relative flex gap-4 pb-6 last:pb-0">
-          {i < steps.length - 1 && (
-            <span
-              aria-hidden="true"
-              className="absolute left-4 top-8 h-[calc(100%-1.5rem)] w-px bg-secondary"
-            />
-          )}
-          <span
-            className={cn(
-              "relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full",
-              step.state === "done" && "bg-accent text-accent-foreground",
-              step.state === "active" &&
-                "bg-secondary ring-4 ring-secondary/30",
-              step.state === "todo" && "bg-secondary/30",
-            )}
-          >
-            {step.state === "done" && <Check className="size-4" />}
-            {step.state === "active" && (
-              <span className="size-2 rounded-full bg-foreground" />
-            )}
-          </span>
-          <div>
-            <p className="font-medium">{step.title}</p>
-            <p className="text-sm text-muted-foreground">{step.text}</p>
-          </div>
-        </li>
-      ))}
-    </ol>
-  );
-}
-
-function DetailRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex flex-col gap-1 border-b border-border py-3.5 last:border-0 sm:flex-row sm:justify-between sm:gap-6">
-      <dt className="text-sm text-muted-foreground">{label}</dt>
-      <dd className="text-sm font-medium sm:max-w-[60%] sm:text-right">
-        {value}
-      </dd>
-    </div>
-  );
-}
+import type { Order } from "@/types";
 
 export default function OrderSent({ orderId }: { orderId: string }) {
   const [order, setOrder] = useState<Order | null>(null);
@@ -122,7 +50,9 @@ export default function OrderSent({ orderId }: { orderId: string }) {
 
     try {
       setCancelling(true);
-      await apiFetch(`/api/orders/${order._id}/cancel`, { method: "PATCH" });
+      await apiFetch(`/api/orders/${order._id}/cancel`, {
+        method: "PATCH",
+      });
 
       setOrder({ ...order, status: "cancelled" });
       setConfirmOpen(false);
@@ -200,6 +130,7 @@ export default function OrderSent({ orderId }: { orderId: string }) {
         <h1 className="mt-6 font-heading text-4xl font-bold md:text-5xl">
           {cancelled ? "Order cancelled" : "Your order is sent!"}
         </h1>
+
         <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
           {cancelled
             ? "This order has been cancelled. You can place a new order any time."
@@ -227,6 +158,7 @@ export default function OrderSent({ orderId }: { orderId: string }) {
                 />
               )}
             </div>
+
             <div className="min-w-0 flex-1">
               <p className="truncate font-heading text-lg font-bold">
                 {itemSnapshot.itemName}
@@ -235,6 +167,7 @@ export default function OrderSent({ orderId }: { orderId: string }) {
                 {vendorName} · {itemSnapshot.location}
               </p>
             </div>
+
             <p className="font-heading text-xl font-bold text-brand">
               {formatPrice(itemSnapshot.price)}
             </p>
@@ -245,14 +178,18 @@ export default function OrderSent({ orderId }: { orderId: string }) {
               label="Order ID"
               value={`#${order._id.slice(-6).toUpperCase()}`}
             />
+
             <DetailRow
               label="Delivery date"
               value={formatLongDate(order.deliveryDate)}
             />
+
             <DetailRow label="Delivery address" value={order.deliveryAddress} />
+
             {order.message && (
               <DetailRow label="Message" value={order.message} />
             )}
+
             <DetailRow
               label="Requested on"
               value={formatLongDate(order.createdAt)}
@@ -265,7 +202,7 @@ export default function OrderSent({ orderId }: { orderId: string }) {
           <h2 className="font-heading text-2xl font-bold">What happens next</h2>
 
           <div className="mt-6">
-            <Timeline status={order.status} />
+            <OrderTimeline status={order.status} />
           </div>
 
           {order.status === "pending" && (
@@ -277,6 +214,7 @@ export default function OrderSent({ orderId }: { orderId: string }) {
               >
                 Cancel order
               </button>
+
               <p className="mt-3 text-center text-sm text-muted-foreground">
                 You can cancel while your order is Pending.
               </p>
@@ -292,6 +230,7 @@ export default function OrderSent({ orderId }: { orderId: string }) {
         >
           View my orders
         </Link>
+
         <Link
           href="/menu"
           className="inline-flex h-12 items-center rounded-full border border-border bg-card px-7 text-sm font-medium transition-colors hover:bg-muted"

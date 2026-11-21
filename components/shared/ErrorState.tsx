@@ -7,12 +7,21 @@ type Props = {
   title?: string;
   description?: string;
   retryHref?: string;
+  retryLabel?: string;
+  onRetry?: () => void;
 };
+
+const actionClass = cn(
+  buttonVariants(),
+  "mt-6 h-10 cursor-pointer rounded-full bg-brand px-6 font-semibold text-brand-foreground hover:bg-brand/90",
+);
 
 export default function ErrorState({
   title = "Something went wrong",
   description = "We could not load this content. Please try again.",
   retryHref,
+  retryLabel = "Try again",
+  onRetry,
 }: Props) {
   return (
     <div className="flex flex-col items-center rounded-2xl border border-destructive/30 bg-card px-6 py-16 text-center">
@@ -23,17 +32,16 @@ export default function ErrorState({
       <p className="mt-2 max-w-sm text-sm text-muted-foreground">
         {description}
       </p>
-      {retryHref && (
-        <Link
-          href={retryHref}
-          className={cn(
-            buttonVariants(),
-            "mt-6 h-10 rounded-full bg-brand px-6 font-semibold text-brand-foreground hover:bg-brand/90",
-          )}
-        >
-          Try again
+
+      {onRetry ? (
+        <button type="button" onClick={onRetry} className={actionClass}>
+          {retryLabel}
+        </button>
+      ) : retryHref ? (
+        <Link href={retryHref} className={actionClass}>
+          {retryLabel}
         </Link>
-      )}
+      ) : null}
     </div>
   );
 }
