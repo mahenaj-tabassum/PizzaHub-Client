@@ -24,13 +24,15 @@ export const auth = betterAuth({
 
   database: mongodbAdapter(db, { client }),
 
-  plugins: [jwt({
-    jwt: {
-      issuer: process.env.BETTER_AUTH_URL,
-      audience: process.env.BETTER_AUTH_URL,
-      expirationTime: "15m"
-    }
-  })],
+  plugins: [
+    jwt({
+      jwt: {
+        issuer: process.env.BETTER_AUTH_URL,
+        audience: process.env.BETTER_AUTH_URL,
+        expirationTime: "15m",
+      },
+    }),
+  ],
 
   emailAndPassword: {
     enabled: true,
