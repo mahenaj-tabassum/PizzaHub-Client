@@ -45,7 +45,8 @@ export default function MenuCard({ item }: { item: MenuItem }) {
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        <p className="text-xs text-muted-foreground">
+        {/* <p className="text-xs text-muted-foreground"> */}
+        <p className="text-xs font-medium text-accent">
           {getCategoryLabel(item.category)}
         </p>
 
