@@ -4,7 +4,8 @@ import type { auth } from "@/lib/auth";
 import { jwtClient } from "better-auth/client/plugins";
 
 export const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
+  // Better Auth is hosted by the Next.js application.
+  baseURL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
 
   plugins: [inferAdditionalFields<typeof auth>(), jwtClient()],
 });

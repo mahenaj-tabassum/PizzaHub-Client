@@ -1,5 +1,12 @@
 import "server-only";
-import type { MenuListResponse } from "@/types";
+
+import { cache } from "react";
+
+import type {
+  MenuItem,
+  SingleMenuItemResponse,
+  MenuListResponse,
+} from "@/types";
 
 const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, "");
 
@@ -19,6 +26,7 @@ export async function getMenuItems(
   Object.entries(filters).forEach(([key, value]) => {
     if (value) params.set(key, value);
   });
+
   params.set("limit", "12");
 
   const res = await fetch(`${API_URL}/api/menu?${params.toString()}`, {
@@ -30,12 +38,13 @@ export async function getMenuItems(
   return res.json();
 }
 
-/** Location dropdown এর অপশন। endpoint না থাকলে খালি লিস্ট ফেরত দেয় */
+/** Location dropdown options. Returns an empty list if the endpoint fails. */
 export async function getLocations(): Promise<string[]> {
   try {
     const res = await fetch(`${API_URL}/api/menu/locations`, {
       next: { revalidate: 300 },
     });
+
     if (!res.ok) return [];
 
     const json = await res.json();
@@ -44,3 +53,20 @@ export async function getLocations(): Promise<string[]> {
     return [];
   }
 }
+
+/** Fetches one menu item. Returns null if it doesn't exist. */
+export const getMenuItem = cache(
+  async (id: string): Promise<MenuItem | null> => {
+    const res = await fetch(`${API_URL}/api/menu/${encodeURIComponent(id)}`, {
+      cache: "no-store",
+    });
+
+    if (res.status === 404 || res.status === 400) return null;
+
+    if (!res.ok) throw new Error("Failed to load menu item");
+
+    const json: SingleMenuItemResponse = await res.json();
+
+    return json.data ?? null;
+  },
+);

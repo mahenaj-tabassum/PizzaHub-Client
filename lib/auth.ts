@@ -9,6 +9,14 @@ if (!mongoUri) {
   throw new Error("MONGODB_URI is not configured");
 }
 
+if (!process.env.BETTER_AUTH_SECRET) {
+  throw new Error("BETTER_AUTH_SECRET is not configured");
+}
+
+if (!process.env.BETTER_AUTH_URL) {
+  throw new Error("BETTER_AUTH_URL is not configured");
+}
+
 const client = new MongoClient(mongoUri);
 
 const db = client.db(process.env.DB_NAME || "PizzaHub-FullStack");
@@ -20,7 +28,8 @@ export const auth = betterAuth({
 
   secret: process.env.BETTER_AUTH_SECRET,
 
-  trustedOrigins: [process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"],
+  // Your frontend is currently running locally.
+  trustedOrigins: ["http://localhost:3000"],
 
   database: mongodbAdapter(db, { client }),
 
@@ -42,23 +51,24 @@ export const auth = betterAuth({
 
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
 
   user: {
     modelName: "users",
+
     additionalFields: {
       role: {
-        type: ["customer", "vendor", "admin"],
+        type: "string",
         required: false,
         defaultValue: "customer",
         input: false,
       },
 
       requestedRole: {
-        type: ["customer", "vendor"],
+        type: "string",
         required: false,
         input: true,
         returned: false,
@@ -72,9 +82,21 @@ export const auth = betterAuth({
       },
 
       subscriptionPlan: {
-        type: ["free", "premium"],
+        type: "string",
         required: false,
         defaultValue: "free",
+        input: false,
+      },
+
+      businessName: {
+        type: "string",
+        required: false,
+        input: false,
+      },
+
+      subscriptionExpiresAt: {
+        type: "date",
+        required: false,
         input: false,
       },
     },
@@ -96,16 +118,5 @@ export const auth = betterAuth({
         },
       },
     },
-  },
-  businessName: {
-    type: "string",
-    required: false,
-    input: false,
-  },
-
-  subscriptionExpiresAt: {
-    type: "date",
-    required: false,
-    input: false,
   },
 });

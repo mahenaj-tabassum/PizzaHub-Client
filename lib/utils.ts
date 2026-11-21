@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { MenuItem } from "@/types"
+import type { MenuItem } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -33,4 +33,18 @@ export function getVendorName(item: Pick<MenuItem, "vendorInfo">) {
   return (
     item.vendorInfo?.businessName || item.vendorInfo?.name || "Local restaurant"
   );
+}
+
+// "2026-11-24" → "Tue, 24 Nov 2026" (date-only স্ট্রিং লোকাল সময়ে পড়া হয়, তাই দিন সরে যায় না)
+export function formatLongDate(value: string) {
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(value)
+    ? new Date(`${value}T00:00:00`)
+    : new Date(value);
+
+  return new Intl.DateTimeFormat("en-GB", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(date);
 }
