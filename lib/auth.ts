@@ -21,12 +21,23 @@ if (!process.env.BETTER_AUTH_URL) {
 // শেষের "/" বাদ দেওয়া হলো, যাতে সার্ভারের issuer/audience এর সাথে সবসময় মেলে
 const authUrl = process.env.BETTER_AUTH_URL.replace(/\/+$/, "");
 
-// Reuse one MongoClient across hot reloads and serverless invocations
+// Reuse one MongoClient across hot reloads and serverless invocations.
+// Short timeouts make a failed connection fail fast instead of hanging 30s.
 const globalForMongo = globalThis as unknown as {
   _pizzaHubMongo?: MongoClient;
 };
 
-const client = globalForMongo._pizzaHubMongo ?? new MongoClient(mongoUri);
+const client =
+  globalForMongo._pizzaHubMongo ??
+  new MongoClient(mongoUri, {
+    maxPoolSize: 5,
+    minPoolSize: 0,
+    serverSelectionTimeoutMS: 8000,
+    connectTimeoutMS: 8000,
+    socketTimeoutMS: 45000,
+    maxIdleTimeMS: 30000,
+  });
+
 globalForMongo._pizzaHubMongo = client;
 
 const db = client.db(process.env.DB_NAME || "PizzaHub-FullStack");
