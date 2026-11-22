@@ -1,10 +1,5 @@
-import DashboardPageHeader from "@/components/dashboard/DashboardPageHeader";
+import AdminOverview from "@/components/dashboard/AdminOverview";
 
-export default function AdminOverviewPage() {
-  return (
-    <DashboardPageHeader
-      title="Admin Overview"
-      description="Platform statistics will appear here."
-    />
-  );
+export default function AdminDashboard() {
+  return <AdminOverview />;
 }
