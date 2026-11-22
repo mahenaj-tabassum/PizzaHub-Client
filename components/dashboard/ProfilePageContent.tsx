@@ -3,6 +3,14 @@ import ProfileForm from "@/components/dashboard/ProfileForm";
 import { requireUser } from "@/lib/session";
 import type { SubscriptionPlan, UserRole } from "@/types";
 
+function toIsoDate(value: unknown) {
+  const date = value ? new Date(value as string | number | Date) : null;
+
+  return date && !Number.isNaN(date.getTime())
+    ? date.toISOString()
+    : new Date().toISOString();
+}
+
 export default async function ProfilePageContent() {
   const user = await requireUser();
   const role = user.role as UserRole;
@@ -27,7 +35,7 @@ export default async function ProfilePageContent() {
           businessName: user.businessName ?? "",
           subscriptionPlan: (user.subscriptionPlan ??
             "free") as SubscriptionPlan,
-          createdAt: new Date(user.createdAt).toISOString(),
+          createdAt: toIsoDate(user.createdAt),
         }}
       />
     </>
