@@ -5,9 +5,9 @@ import Link from "next/link";
 import {
   CheckCheck,
   ClipboardList,
+  Clock,
   CreditCard,
   LayoutGrid,
-  UtensilsCrossed,
 } from "lucide-react";
 
 import CustomerCell from "@/components/dashboard/CustomerCell";
@@ -96,9 +96,17 @@ export default function VendorOverview({
     return (
       <div role="status" aria-label="Loading dashboard">
         {heading}
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-          {Array.from({ length: 5 }).map((_, i) => (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="h-40 animate-pulse rounded-2xl bg-muted" />
+          ))}
+        </div>
+        <div className="mt-4 flex flex-col gap-4 sm:flex-row">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div
+              key={i}
+              className="h-36 flex-1 animate-pulse rounded-2xl bg-muted"
+            />
           ))}
         </div>
         <div className="mt-6 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
@@ -113,35 +121,27 @@ export default function VendorOverview({
   const premium = s.subscriptionPlan === "premium";
   const slotsUsed = countActive(items.items);
   const progress = Math.min(100, (slotsUsed / FREE_ACTIVE_LIMIT) * 100);
+  const pendingItems = items.items.filter((i) => i.status === "pending").length;
 
   return (
     <>
       {heading}
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-        <StatCard
-          label="Total menu items"
-          value={s.totalItems}
-          icon={UtensilsCrossed}
-        />
+      {/* Top row: Active items, Pending items, Current plan */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatCard
           label="Active menu items"
           value={s.activeItems}
           icon={LayoutGrid}
         />
         <StatCard
-          label="Pending orders"
-          value={s.pendingOrders}
-          icon={ClipboardList}
-        />
-        <StatCard
-          label="Accepted orders"
-          value={s.acceptedOrders}
-          icon={CheckCheck}
+          label="Pending menu items"
+          value={pendingItems}
+          icon={Clock}
         />
 
         {/* Current plan */}
-        <div className="rounded-2xl bg-card p-5 ring-1 ring-foreground/10">
+        <div className="rounded-2xl bg-card p-5 ring-1 ring-foreground/10 sm:col-span-2 lg:col-span-1">
           <span className="flex size-11 items-center justify-center rounded-xl bg-secondary/25 text-brand">
             <CreditCard className="size-5" />
           </span>
@@ -186,6 +186,24 @@ export default function VendorOverview({
               </Link>
             </>
           )}
+        </div>
+      </div>
+
+      {/* Bottom row: Pending orders, Accepted orders (equal width) */}
+      <div className="mt-4 flex flex-col gap-4 sm:flex-row">
+        <div className="flex-1">
+          <StatCard
+            label="Pending orders"
+            value={s.pendingOrders}
+            icon={ClipboardList}
+          />
+        </div>
+        <div className="flex-1">
+          <StatCard
+            label="Accepted orders"
+            value={s.acceptedOrders}
+            icon={CheckCheck}
+          />
         </div>
       </div>
 
