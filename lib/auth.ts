@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "@better-auth/mongo-adapter";
 import { jwt } from "better-auth/plugins";
+import { APIError, createAuthMiddleware } from "better-auth/api";
 
 const mongoUri = process.env.MONGODB_URI;
 
@@ -116,6 +117,25 @@ export const auth = betterAuth({
         input: false,
       },
     },
+  },
+
+  hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      if (ctx.path !== "/sign-up/email") return;
+
+      const password = String(ctx.body?.password ?? "");
+
+      if (
+        password.length < 6 ||
+        !/[A-Z]/.test(password) ||
+        !/[a-z]/.test(password)
+      ) {
+        throw new APIError("BAD_REQUEST", {
+          message:
+            "Password must be at least 6 characters with one uppercase and one lowercase letter.",
+        });
+      }
+    }),
   },
 
   databaseHooks: {
