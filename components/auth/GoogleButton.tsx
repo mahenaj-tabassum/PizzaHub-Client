@@ -27,7 +27,7 @@ export default function GoogleButton() {
       type="button"
       onClick={handleGoogleLogin}
       disabled={loading}
-      className="flex h-[54px] w-full items-center justify-center gap-3 rounded-xl border border-[#e2c8a8] bg-white font-medium text-[#291b17] transition hover:bg-[#fffaf5] disabled:opacity-60"
+      className="flex h-[54px] w-full items-center justify-center gap-3 rounded-xl border border-input bg-card font-medium text-foreground transition hover:bg-muted disabled:opacity-60"
     >
       <FcGoogle className="text-2xl" />
       {loading ? "Connecting..." : "Continue with Google"}

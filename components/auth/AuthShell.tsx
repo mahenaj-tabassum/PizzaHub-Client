@@ -28,7 +28,7 @@ export default function AuthShell({
   		    to top,
   		    rgba(35, 13, 11, 0.96),
   		    rgba(91, 23, 17, 0.72),
-  		    rgba(75, 20, 15, 0.48)
+  		    rgba(75, 20, 15, 0.30)
   		  ),
   		  url('${bgImage}')
   		`,
@@ -52,10 +52,10 @@ export default function AuthShell({
       </section>
 
       {/* Right form panel */}
-      <section className="relative flex min-h-screen items-center justify-center bg-[#f8efe4] px-5 py-12 sm:px-10 lg:px-12">
+      <section className="relative flex min-h-screen items-center justify-center bg-background px-5 py-12 sm:px-10 lg:px-12">
         <Link
           href="/"
-          className="absolute right-6 top-7 text-sm font-medium text-[#73554a] transition hover:text-[#981e24] sm:right-10"
+          className="absolute right-6 top-7 text-sm font-medium text-muted-foreground transition hover:text-brand sm:right-10"
         >
           ← Back to home
         </Link>
@@ -66,11 +66,11 @@ export default function AuthShell({
               <Logo light={false} />
             </div>
 
-            <h2 className="font-heading text-4xl font-bold tracking-tight text-[#281916] sm:text-[42px]">
+            <h2 className="font-heading text-4xl font-bold tracking-tight text-foreground sm:text-[42px]">
               {title}
             </h2>
 
-            <p className="mt-3 text-[16px] leading-7 text-[#76584d]">
+            <p className="mt-3 text-[16px] leading-7 text-muted-foreground">
               {description}
             </p>
           </div>

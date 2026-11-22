@@ -8,7 +8,7 @@ import {
   LayoutDashboard,
   LogOut,
   ChevronDown,
-  Settings,
+  Loader2,
 } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -77,7 +77,7 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
             className="size-9 rounded-full object-cover"
           />
         ) : (
-          <span className="flex size-9 items-center justify-center rounded-full bg-[#f2d39c] text-sm font-bold text-[#8e1b20]">
+          <span className="flex size-9 items-center justify-center rounded-full bg-secondary text-sm font-bold text-secondary-foreground">
             {initials}
           </span>
         )}
@@ -97,13 +97,15 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
             onClick={() => setOpen(false)}
           />
 
-          <div className="absolute right-0 top-full z-50 mt-3 w-64 rounded-2xl border border-[#ead7c1] bg-white p-3 text-[#301c17] shadow-xl">
-            <div className="border-b border-[#f0e5d9] px-3 py-3">
+          <div className="absolute right-0 top-full z-50 mt-3 w-64 rounded-2xl border border-border bg-popover p-3 text-popover-foreground shadow-xl">
+            <div className="border-b border-border px-3 py-3">
               <p className="truncate text-sm font-semibold">{user.name}</p>
 
-              <p className="truncate text-xs text-[#80665b]">{user.email}</p>
+              <p className="truncate text-xs text-muted-foreground">
+                {user.email}
+              </p>
 
-              <span className="mt-2 inline-block rounded-full bg-[#f8e9d8] px-3 py-1 text-xs font-medium capitalize text-[#981e24]">
+              <span className="mt-2 inline-block rounded-full bg-muted px-3 py-1 text-xs font-medium capitalize text-brand">
                 {user.role}
               </span>
             </div>
@@ -112,7 +114,7 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
               <Link
                 href={getDashboard(user.role)}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition hover:bg-[#fbf2e9]"
+                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition hover:bg-muted"
               >
                 <LayoutDashboard size={18} />
                 Dashboard
@@ -121,7 +123,7 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
               <Link
                 href={`${getDashboard(user.role)}/profile`}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition hover:bg-[#fbf2e9]"
+                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition hover:bg-muted"
               >
                 <UserRound size={18} />
                 Profile
@@ -130,10 +132,10 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
               <button
                 onClick={handleLogout}
                 disabled={loading}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-[#981e24] transition hover:bg-[#fbf0ed] disabled:opacity-50"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-brand transition hover:bg-destructive/10 disabled:opacity-50"
               >
                 {loading ? (
-                  <Settings size={18} className="animate-spin" />
+                  <Loader2 size={18} className="animate-spin" />
                 ) : (
                   <LogOut size={18} />
                 )}

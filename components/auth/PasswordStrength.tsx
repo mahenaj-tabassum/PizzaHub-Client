@@ -45,10 +45,18 @@ export function isPasswordValid(password: string) {
 }
 
 const LEVELS = [
-  { label: "Weak", bar: "bg-[#c62828]", text: "text-[#c62828]" },
-  { label: "Fair", bar: "bg-[#e0a458]", text: "text-[#a8741f]" },
-  { label: "Good", bar: "bg-[#8a9a3f]", text: "text-[#66742a]" },
-  { label: "Strong", bar: "bg-[#2f4f3a]", text: "text-[#2f4f3a]" },
+  { label: "Weak", bar: "bg-destructive", text: "text-destructive" },
+  {
+    label: "Fair",
+    bar: "bg-chart-2",
+    text: "text-[#a8741f] dark:text-chart-2",
+  },
+  {
+    label: "Good",
+    bar: "bg-[#8a9a3f]",
+    text: "text-[#66742a] dark:text-[#a3b455]",
+  },
+  { label: "Strong", bar: "bg-chart-3", text: "text-chart-3" },
 ];
 
 // Returns 0-3 (index into LEVELS)
@@ -65,7 +73,7 @@ function getLevel(password: string) {
 export default function PasswordStrength({ password }: { password: string }) {
   if (!password) {
     return (
-      <p className="mt-2 text-xs text-[#795b50]">
+      <p className="mt-2 text-xs text-muted-foreground">
         At least 6 characters, with one uppercase and one lowercase letter.
       </p>
     );
@@ -83,7 +91,7 @@ export default function PasswordStrength({ password }: { password: string }) {
               key={i}
               className={cn(
                 "h-1.5 flex-1 rounded-full transition-colors duration-300",
-                i <= level ? current.bar : "bg-[#e8d9c5]",
+                i <= level ? current.bar : "bg-muted",
               )}
             />
           ))}
@@ -103,7 +111,7 @@ export default function PasswordStrength({ password }: { password: string }) {
               key={rule.id}
               className={cn(
                 "flex items-center gap-2 text-xs transition-colors",
-                ok ? "text-[#2f4f3a]" : "text-[#795b50]",
+                ok ? "text-chart-3" : "text-muted-foreground",
               )}
             >
               {ok ? (
@@ -112,7 +120,7 @@ export default function PasswordStrength({ password }: { password: string }) {
                 <X
                   className={cn(
                     "size-3.5 shrink-0",
-                    rule.required && "text-[#c62828]",
+                    rule.required && "text-destructive",
                   )}
                 />
               )}

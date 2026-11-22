@@ -122,9 +122,11 @@ export default function SignUpForm() {
         <GoogleButton />
 
         <div className="flex items-center gap-3">
-          <span className="h-px flex-1 bg-[#e3c9a9]" />
-          <span className="text-sm text-[#795b50]">or continue with email</span>
-          <span className="h-px flex-1 bg-[#e3c9a9]" />
+          <span className="h-px flex-1 bg-border" />
+          <span className="text-sm text-muted-foreground">
+            or continue with email
+          </span>
+          <span className="h-px flex-1 bg-border" />
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -133,7 +135,7 @@ export default function SignUpForm() {
           <div>
             <label
               htmlFor="name"
-              className="mb-2 block text-sm font-medium text-[#38231d]"
+              className="mb-2 block text-sm font-medium text-foreground"
             >
               Full name
             </label>
@@ -150,7 +152,7 @@ export default function SignUpForm() {
           <div>
             <label
               htmlFor="email"
-              className="mb-2 block text-sm font-medium text-[#38231d]"
+              className="mb-2 block text-sm font-medium text-foreground"
             >
               Email
             </label>
@@ -168,7 +170,7 @@ export default function SignUpForm() {
           <div>
             <label
               htmlFor="password"
-              className="mb-2 block text-sm font-medium text-[#38231d]"
+              className="mb-2 block text-sm font-medium text-foreground"
             >
               Password
             </label>
@@ -189,7 +191,7 @@ export default function SignUpForm() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#76584d]"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground"
                 aria-label="Toggle password visibility"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -200,7 +202,7 @@ export default function SignUpForm() {
           </div>
 
           {/* Optional profile image */}
-          <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-[#dfc29e] bg-[#fbf5eb] p-4 transition hover:bg-white">
+          <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-border bg-muted p-4 transition hover:bg-card">
             {imagePreview ? (
               <Image
                 src={imagePreview}
@@ -210,21 +212,21 @@ export default function SignUpForm() {
                 className="size-12 rounded-full object-cover"
               />
             ) : (
-              <span className="flex size-12 items-center justify-center rounded-full bg-[#f4e3c9] text-[#981e24]">
+              <span className="flex size-12 items-center justify-center rounded-full bg-secondary/30 text-brand">
                 <Upload size={21} />
               </span>
             )}
 
             <span className="min-w-0 flex-1">
-              <span className="block text-sm font-medium text-[#301c17]">
+              <span className="block text-sm font-medium text-foreground">
                 Profile image (optional)
               </span>
-              <span className="block text-xs text-[#795b50]">
+              <span className="block text-xs text-muted-foreground">
                 PNG or JPG. You can skip this.
               </span>
             </span>
 
-            <span className="rounded-full border border-[#dfc29e] bg-white px-4 py-2 text-sm">
+            <span className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground">
               Upload
             </span>
 
@@ -239,18 +241,18 @@ export default function SignUpForm() {
           <button
             type="submit"
             disabled={loading || !passwordValid}
-            className="flex h-[54px] w-full items-center justify-center gap-2 rounded-xl bg-[#981e24] font-semibold text-white transition hover:bg-[#7f171d] disabled:cursor-not-allowed disabled:opacity-60"
+            className="flex h-[58px] w-full items-center justify-center gap-2 rounded-xl bg-brand font-semibold text-brand-foreground transition hover:bg-brand/90 disabled:opacity-60"
           >
             {loading && <Loader2 className="size-5 animate-spin" />}
             {loading ? "Creating account..." : "Create account"}
           </button>
         </form>
 
-        <p className="text-center text-sm text-[#795b50]">
+        <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link
             href="/signin"
-            className="font-semibold text-[#981e24] hover:underline"
+            className="font-semibold text-brand hover:underline"
           >
             Sign in
           </Link>

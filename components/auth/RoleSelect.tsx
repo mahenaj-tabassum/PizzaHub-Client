@@ -27,7 +27,7 @@ export default function RoleSelect({ value, onChange }: RoleSelectProps) {
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-[#39231e]">
+      <label className="mb-2 block text-sm font-medium text-foreground">
         I want to join as
       </label>
 
@@ -44,25 +44,25 @@ export default function RoleSelect({ value, onChange }: RoleSelectProps) {
               aria-pressed={selected}
               className={`rounded-2xl border p-4 text-left transition ${
                 selected
-                  ? "border-[#981e24] bg-white ring-2 ring-[#981e24]/15"
-                  : "border-[#e5cfb2] bg-[#fbf5eb] hover:border-[#b77b62]"
+                  ? "border-brand bg-card ring-2 ring-brand/15"
+                  : "border-border bg-muted hover:border-brand/50"
               }`}
             >
               <span
                 className={`mb-2 flex size-10 items-center justify-center rounded-xl ${
                   selected
-                    ? "bg-[#981e24] text-white"
-                    : "bg-[#f4e3c9] text-[#981e24]"
+                    ? "bg-brand text-brand-foreground"
+                    : "bg-secondary/30 text-brand"
                 }`}
               >
                 <Icon size={21} />
               </span>
 
-              <span className="block text-sm font-semibold text-[#301c17]">
+              <span className="block text-sm font-semibold text-foreground">
                 {role.title}
               </span>
 
-              <span className="mt-1 block text-xs leading-5 text-[#795b50]">
+              <span className="mt-1 block text-xs leading-5 text-muted-foreground">
                 {role.description}
               </span>
             </button>

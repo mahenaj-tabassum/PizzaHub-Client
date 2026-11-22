@@ -105,7 +105,7 @@ export default function MobileNav({ links, user, isPending }: MobileNavProps) {
         {/* Mobile Sidebar */}
         <SheetContent
           side="right"
-          className="w-[300px] border-[#ead7c1] bg-[#fbf4eb]"
+          className="w-[300px] border-border bg-background"
         >
           <SheetTitle className="sr-only">Navigation menu</SheetTitle>
 
@@ -116,19 +116,19 @@ export default function MobileNav({ links, user, isPending }: MobileNavProps) {
                 key={link.href}
                 href={link.href}
                 onClick={close}
-                className="text-base font-medium text-[#321d17] transition hover:text-[#981e24]"
+                className="text-base font-medium text-foreground transition hover:text-brand"
               >
                 {link.label}
               </Link>
             ))}
 
             {/* Authentication Section */}
-            <div className="border-t border-[#e7d4bd] pt-5">
+            <div className="border-t border-border pt-5">
               {/* Loading State */}
               {isPending ? (
                 <div className="space-y-3">
-                  <div className="h-11 animate-pulse rounded-xl bg-[#ead7c1]" />
-                  <div className="h-11 animate-pulse rounded-xl bg-[#ead7c1]" />
+                  <div className="h-11 animate-pulse rounded-xl bg-muted" />
+                  <div className="h-11 animate-pulse rounded-xl bg-muted" />
                 </div>
               ) : user ? (
                 <>
@@ -141,21 +141,21 @@ export default function MobileNav({ links, user, isPending }: MobileNavProps) {
                         className="size-11 rounded-full object-cover"
                       />
                     ) : (
-                      <span className="flex size-11 items-center justify-center rounded-full bg-[#981e24] font-semibold text-white">
+                      <span className="flex size-11 items-center justify-center rounded-full bg-brand font-semibold text-brand-foreground">
                         {user.name.charAt(0).toUpperCase()}
                       </span>
                     )}
 
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-[#301c17]">
+                      <p className="truncate text-sm font-semibold text-foreground">
                         {user.name}
                       </p>
 
-                      <p className="truncate text-xs text-[#80665b]">
+                      <p className="truncate text-xs text-muted-foreground">
                         {user.email}
                       </p>
 
-                      <span className="text-xs capitalize text-[#981e24]">
+                      <span className="text-xs capitalize text-brand">
                         {user.role}
                       </span>
                     </div>
@@ -165,7 +165,7 @@ export default function MobileNav({ links, user, isPending }: MobileNavProps) {
                   <Link
                     href={getDashboard(user.role)}
                     onClick={close}
-                    className="flex items-center gap-3 py-3 text-sm font-medium text-[#301c17] transition hover:text-[#981e24]"
+                    className="flex items-center gap-3 py-3 text-sm font-medium text-foreground transition hover:text-brand"
                   >
                     <LayoutDashboard size={18} />
                     Dashboard
@@ -175,7 +175,7 @@ export default function MobileNav({ links, user, isPending }: MobileNavProps) {
                   <Link
                     href={`${getDashboard(user.role)}/profile`}
                     onClick={close}
-                    className="flex items-center gap-3 py-3 text-sm font-medium text-[#301c17] transition hover:text-[#981e24]"
+                    className="flex items-center gap-3 py-3 text-sm font-medium text-foreground transition hover:text-brand"
                   >
                     <UserRound size={18} />
                     Profile Settings
@@ -186,7 +186,7 @@ export default function MobileNav({ links, user, isPending }: MobileNavProps) {
                     type="button"
                     onClick={handleLogout}
                     disabled={loggingOut}
-                    className="flex w-full items-center gap-3 py-3 text-left text-sm font-medium text-[#981e24] transition hover:text-[#7f171d] disabled:opacity-50"
+                    className="flex w-full items-center gap-3 py-3 text-left text-sm font-medium text-brand transition hover:text-brand/80 disabled:opacity-50"
                   >
                     {loggingOut ? (
                       <Loader2 size={18} className="animate-spin" />
@@ -207,7 +207,7 @@ export default function MobileNav({ links, user, isPending }: MobileNavProps) {
                       buttonVariants({
                         variant: "outline",
                       }),
-                      "rounded-full border-[#d9bea0] text-[#301c17] hover:bg-[#f4e5d3]",
+                      "rounded-full border-border text-foreground py-5 hover:bg-muted",
                     )}
                   >
                     Sign In
@@ -218,7 +218,7 @@ export default function MobileNav({ links, user, isPending }: MobileNavProps) {
                     onClick={close}
                     className={cn(
                       buttonVariants(),
-                      "rounded-full bg-[#981e24] text-white hover:bg-[#7f171d]",
+                      "rounded-full bg-brand py-5 text-brand-foreground hover:bg-brand/90",
                     )}
                   >
                     Sign Up
