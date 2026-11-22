@@ -155,3 +155,91 @@ export interface Transaction {
 
   createdAt: string;
 }
+
+/* ---------- Vendor dashboard ---------- */
+
+export type CustomerInfo = {
+  name: string;
+  email: string;
+  image?: string | null;
+};
+
+export interface VendorOrder extends Order {
+  // customer এর রেকর্ড না পেলে null
+  customerInfo?: CustomerInfo | null;
+}
+
+export interface VendorStats {
+  totalItems: number;
+  activeItems: number;
+  pendingOrders: number;
+  acceptedOrders: number;
+  rejectedOrders: number;
+  subscriptionPlan: SubscriptionPlan;
+  subscriptionExpiresAt?: string | null;
+}
+
+/* ---------- Admin dashboard ---------- */
+
+export interface AdminStats {
+  totalUsers: number;
+  totalVendors: number;
+  totalCustomers: number;
+  totalMenuItems: number;
+  pendingMenuItems: number;
+  totalTransactions: number;
+
+  usersByRole?: { vendors: number; customers: number; admins: number };
+  itemsByStatus: {
+    pending: number;
+    approved: number;
+    rejected: number;
+    inactive: number;
+  };
+  ordersByStatus?: {
+    pending: number;
+    accepted: number;
+    rejected: number;
+    cancelled: number;
+  };
+  revenueByMonth: { month: string; revenue: number; payments: number }[];
+  revenueLastMonths?: number;
+}
+
+export interface AdminUser {
+  _id: string;
+  name: string;
+  email: string;
+  image?: string | null;
+  role: UserRole;
+  isBlocked: boolean;
+  businessName?: string;
+  subscriptionPlan?: SubscriptionPlan;
+  subscriptionExpiresAt?: string | null;
+  createdAt: string;
+}
+
+export type AdminPartyInfo = {
+  name?: string;
+  email?: string;
+  businessName?: string;
+  image?: string | null;
+};
+
+export type AdminItem = Omit<MenuItem, "vendorInfo" | "isAvailable"> & {
+  isAvailable?: boolean;
+  vendorInfo?: AdminPartyInfo | null;
+};
+
+export interface AdminTransaction {
+  _id: string;
+  vendorId: string;
+  plan: "premium";
+  amount: number; // cents
+  currency: string;
+  stripeSessionId: string;
+  stripeSubscriptionId?: string;
+  status: TransactionStatus;
+  createdAt: string;
+  vendorInfo?: AdminPartyInfo | null;
+}

@@ -27,3 +27,9 @@ export const getDashboardPath = (role?: string | null) => {
       return "/dashboard/customer";
   }
 };
+
+// Stripe এর Premium Price এর সাথে মিলিয়ে নিন (শুধু দেখানোর জন্য, আসল চার্জ Stripe এ নির্ধারিত)
+export const PREMIUM_PLAN = {
+  price: "$9.99",
+  interval: "month",
+};
