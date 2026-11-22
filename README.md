@@ -11,14 +11,6 @@ This repository is the **Next.js client**. The Express API lives in the server r
 - **Server repository:** https://github.com/mahenaj-tabassum/PizzaHub-Server
 - **Live API:** https://pizzahub-api-server.vercel.app
 
-## Test Credentials
-
-| Role  | Email                | Password       |
-| ----- | -------------------- | -------------- |
-| Admin | `admin@pizzahub.com` | `Admin@123456` |
-
-Stripe test card for the Premium upgrade: `4242 4242 4242 4242`, any future expiry date, any CVC, any ZIP.
-
 ## Key Features
 
 **Public**
