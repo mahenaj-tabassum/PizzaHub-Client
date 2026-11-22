@@ -50,3 +50,22 @@ export function findNextDelivery(orders: Order[]) {
       .sort((a, b) => a.deliveryDate.localeCompare(b.deliveryDate))[0] ?? null
   );
 }
+
+const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+/** চলতি সপ্তাহের (সোম থেকে রবি) প্রতিদিনের নতুন অর্ডার সংখ্যা */
+export function thisWeekByDay(orders: { createdAt: string }[]) {
+  const now = new Date();
+  const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+
+  const days = WEEKDAYS.map((label) => ({ label, value: 0 }));
+
+  orders.forEach((order) => {
+    const created = new Date(order.createdAt);
+    const diff = Math.floor((+created - +monday) / 86_400_000);
+    if (diff >= 0 && diff < 7) days[diff].value += 1;
+  });
+
+  return days;
+}
