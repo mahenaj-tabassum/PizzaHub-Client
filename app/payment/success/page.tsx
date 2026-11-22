@@ -4,7 +4,11 @@ import PaymentSuccess from "@/components/payment/PaymentSuccess";
 import ErrorState from "@/components/shared/ErrorState";
 import { requireRole } from "@/lib/session";
 
-export const metadata: Metadata = { title: "Payment received" };
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Payment received",
+};
 
 export default async function PaymentSuccessPage({
   searchParams,

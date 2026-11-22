@@ -5,7 +5,11 @@ import { X } from "lucide-react";
 import UpgradeButton from "@/components/dashboard/UpgradeButton";
 import { requireRole } from "@/lib/session";
 
-export const metadata: Metadata = { title: "Payment cancelled" };
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Payment cancelled",
+};
 
 export default async function PaymentCancelPage() {
   await requireRole("vendor");
@@ -19,6 +23,7 @@ export default async function PaymentCancelPage() {
       <h1 className="mt-6 font-heading text-4xl font-bold">
         Payment cancelled
       </h1>
+
       <p className="mt-3 text-muted-foreground">
         No charge was made and your plan has not changed. You can upgrade to
         Premium whenever you are ready.
@@ -26,6 +31,7 @@ export default async function PaymentCancelPage() {
 
       <div className="mt-8 space-y-3">
         <UpgradeButton className="h-14">Try again</UpgradeButton>
+
         <Link
           href="/dashboard/vendor"
           className="flex h-14 w-full items-center justify-center rounded-full border border-border text-sm font-medium transition-colors hover:bg-muted"
