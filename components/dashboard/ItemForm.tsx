@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, TriangleAlert } from "lucide-react";
 import { toast } from "react-toastify";
 
 import ImageUpload, {
@@ -69,9 +69,45 @@ async function uploadImage(file: File) {
   return url;
 }
 
+// এডিটের পর কী হবে, তা আইটেমের বর্তমান স্ট্যাটাস অনুযায়ী
+function getEditNotice(status?: MenuItem["status"]) {
+  if (status === "approved") {
+    return {
+      warning:
+        "This item is live. Saving your changes sends it back to Pending, so customers will not see it until an admin approves it again.",
+      toast:
+        "Item updated. It is now Pending and hidden from customers until an admin approves it again.",
+    };
+  }
+
+  if (status === "rejected") {
+    return {
+      warning:
+        "This item was rejected. Saving your changes resubmits it to the admin for review.",
+      toast: "Item updated and sent to the admin for review again.",
+    };
+  }
+
+  if (status === "inactive") {
+    return {
+      warning:
+        "Saving your changes sends this item to the admin for review before it can go live.",
+      toast: "Item updated and sent to the admin for review.",
+    };
+  }
+
+  // pending: আগে থেকেই রিভিউয়ের অপেক্ষায়, নতুন করে কিছু বদলায় না
+  return {
+    warning: null,
+    toast: "Menu item updated. It is still waiting for admin approval.",
+  };
+}
+
 export default function ItemForm({ mode, initial, limitReached }: Props) {
   const router = useRouter();
   const isEdit = mode === "edit";
+
+  const editNotice = isEdit ? getEditNotice(initial?.status) : null;
 
   const [images, setImages] = useState<ImageEntry[]>(
     () =>
@@ -126,7 +162,10 @@ export default function ItemForm({ mode, initial, limitReached }: Props) {
           method: "PATCH",
           body: JSON.stringify(payload),
         });
-        toast.success("Menu item updated.");
+
+        toast.info(editNotice?.toast ?? "Menu item updated.", {
+          autoClose: 6000,
+        });
       } else {
         await apiFetch("/api/vendor/items", {
           method: "POST",
@@ -156,6 +195,16 @@ export default function ItemForm({ mode, initial, limitReached }: Props) {
       noValidate
       className="max-w-4xl rounded-3xl bg-card p-5 ring-1 ring-foreground/10 sm:p-8"
     >
+      {editNotice?.warning && (
+        <div
+          role="status"
+          className="mb-6 flex items-start gap-3 rounded-xl bg-secondary/25 px-4 py-3.5 text-sm"
+        >
+          <TriangleAlert className="mt-0.5 size-5 shrink-0 text-brand" />
+          <p>{editNotice.warning}</p>
+        </div>
+      )}
+
       <div className="grid gap-5 sm:grid-cols-2">
         <Field
           label="Item name"

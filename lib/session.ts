@@ -17,6 +17,9 @@ export async function requireUser() {
   if (!session) redirect("/signin");
   if (session.user.isBlocked) redirect("/blocked");
 
+  // নতুন Google ইউজার রোল না বেছে নেওয়া পর্যন্ত আটকে থাকবে
+  if (session.user.roleSelected === false) redirect("/redirect");
+
   return session.user;
 }
 

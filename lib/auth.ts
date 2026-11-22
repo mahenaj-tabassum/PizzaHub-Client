@@ -18,6 +18,9 @@ if (!process.env.BETTER_AUTH_URL) {
   throw new Error("BETTER_AUTH_URL is not configured");
 }
 
+// শেষের "/" বাদ দেওয়া হলো, যাতে সার্ভারের issuer/audience এর সাথে সবসময় মেলে
+const authUrl = process.env.BETTER_AUTH_URL.replace(/\/+$/, "");
+
 // Reuse one MongoClient across hot reloads and serverless invocations
 const globalForMongo = globalThis as unknown as {
   _pizzaHubMongo?: MongoClient;
@@ -32,8 +35,8 @@ const db = client.db(process.env.DB_NAME || "PizzaHub-FullStack");
 const trustedOrigins = Array.from(
   new Set(
     [
-      process.env.BETTER_AUTH_URL,
-      process.env.NEXT_PUBLIC_APP_URL,
+      authUrl,
+      process.env.NEXT_PUBLIC_APP_URL?.replace(/\/+$/, ""),
       "http://localhost:3000",
     ].filter((origin): origin is string => Boolean(origin)),
   ),
@@ -42,7 +45,7 @@ const trustedOrigins = Array.from(
 export const auth = betterAuth({
   appName: "PizzaHub",
 
-  baseURL: process.env.BETTER_AUTH_URL,
+  baseURL: authUrl,
 
   secret: process.env.BETTER_AUTH_SECRET,
 
@@ -53,8 +56,8 @@ export const auth = betterAuth({
   plugins: [
     jwt({
       jwt: {
-        issuer: process.env.BETTER_AUTH_URL,
-        audience: process.env.BETTER_AUTH_URL,
+        issuer: authUrl,
+        audience: authUrl,
         expirationTime: "15m",
       },
     }),
@@ -84,11 +87,21 @@ export const auth = betterAuth({
         input: false,
       },
 
+      // ইমেইল সাইন-আপে ফর্ম থেকে আসে। Google এ আসে না।
       requestedRole: {
         type: "string",
         required: false,
         input: true,
         returned: false,
+      },
+
+      // false = রোল এখনো বেছে নেওয়া হয়নি (নতুন Google ইউজার)
+      // true/undefined = রোল ঠিক করা আছে
+      roleSelected: {
+        type: "boolean",
+        required: false,
+        defaultValue: false,
+        input: false,
       },
 
       isBlocked: {
@@ -142,14 +155,21 @@ export const auth = betterAuth({
     user: {
       create: {
         before: async (user) => {
-          // Only "vendor" or "customer" can be requested. Admin is never allowed here.
-          const role = user.requestedRole === "vendor" ? "vendor" : "customer";
+          // requestedRole আলাদা করে ফেলা হলো, যাতে ডাটাবেসে null হয়ে সেভ না হয়
+          const { requestedRole, ...rest } = user as typeof user & {
+            requestedRole?: string;
+          };
+
+          // শুধু "vendor" বা "customer" গ্রহণযোগ্য। Admin এখানে কখনোই নয়।
+          const choseRole =
+            requestedRole === "vendor" || requestedRole === "customer";
 
           return {
             data: {
-              ...user,
-              role,
-              requestedRole: undefined,
+              ...rest,
+              role: requestedRole === "vendor" ? "vendor" : "customer",
+              // ইমেইল সাইন-আপ: রোল বাছাই হয়ে গেছে। Google: এখনো হয়নি।
+              roleSelected: choseRole,
             },
           };
         },

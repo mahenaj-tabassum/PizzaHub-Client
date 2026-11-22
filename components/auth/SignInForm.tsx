@@ -6,21 +6,10 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 import { authClient } from "@/lib/auth-client";
+import { getDashboardPath } from "@/lib/constants";
+import { getSafeCallbackUrl } from "@/lib/safe-redirect";
 import AuthShell from "./AuthShell";
 import GoogleButton from "./GoogleButton";
-
-function getDashboard(role: string) {
-  switch (role) {
-    case "vendor":
-      return "/dashboard/vendor";
-
-    case "admin":
-      return "/dashboard/admin";
-
-    default:
-      return "/dashboard/customer";
-  }
-}
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
@@ -46,17 +35,13 @@ export default function SignInForm() {
 
       toast.success("Welcome back!");
 
-      const callbackUrl = new URLSearchParams(window.location.search).get(
-        "callbackUrl",
+      const callbackUrl = getSafeCallbackUrl(
+        new URLSearchParams(window.location.search).get("callbackUrl"),
+        window.location.origin,
       );
-      const isSafe =
-        !!callbackUrl &&
-        callbackUrl.startsWith("/") &&
-        !callbackUrl.startsWith("//");
 
-      window.location.href = isSafe
-        ? callbackUrl
-        : getDashboard(data.user.role ?? "customer");
+      window.location.href =
+        callbackUrl ?? getDashboardPath(data.user.role ?? "customer");
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Unable to sign in.",
@@ -84,32 +69,42 @@ export default function SignInForm() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="mb-2 block text-sm font-medium text-foreground">
+            <label
+              htmlFor="email"
+              className="mb-2 block text-sm font-medium text-foreground"
+            >
               Email
             </label>
 
             <input
+              id="email"
               required
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
+              autoComplete="email"
               className="auth-input"
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-foreground">
+            <label
+              htmlFor="password"
+              className="mb-2 block text-sm font-medium text-foreground"
+            >
               Password
             </label>
 
             <div className="relative">
               <input
+                id="password"
                 required
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
+                autoComplete="current-password"
                 className="auth-input pr-12"
               />
 

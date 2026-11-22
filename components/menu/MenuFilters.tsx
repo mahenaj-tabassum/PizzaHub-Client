@@ -110,7 +110,9 @@ export default function MenuFilters({ locations }: { locations: string[] }) {
     const params = new URLSearchParams(searchParams.toString());
 
     Object.entries(changes).forEach(([key, value]) => {
-      if (value) params.set(key, value);
+      // শুধু স্পেস থাকলে সেটাকে খালি ধরা হয়, তাই URL এ কখনো q=%20 যাবে না
+      const clean = value.trim();
+      if (clean) params.set(key, clean);
       else params.delete(key);
     });
 
@@ -123,10 +125,12 @@ export default function MenuFilters({ locations }: { locations: string[] }) {
     });
   };
 
-  // Search এ debounce
+  // Search এ debounce (trim করা মান দিয়ে তুলনা ও আপডেট)
   useEffect(() => {
-    if ((searchParams.get("q") ?? "") !== debouncedQuery) {
-      update({ q: debouncedQuery });
+    const trimmed = debouncedQuery.trim();
+
+    if ((searchParams.get("q") ?? "") !== trimmed) {
+      update({ q: trimmed });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedQuery]);
@@ -171,6 +175,7 @@ export default function MenuFilters({ locations }: { locations: string[] }) {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search pizza by name"
         aria-label="Search menu"
+        maxLength={100}
         className="h-12 w-full rounded-xl border border-input bg-card pl-11 pr-4 text-sm outline-none transition placeholder:text-muted-foreground focus:border-ring focus:ring-3 focus:ring-ring/20"
       />
     </div>
