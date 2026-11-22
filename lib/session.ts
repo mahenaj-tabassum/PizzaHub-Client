@@ -11,9 +11,10 @@ export const getSession = cache(async () => {
   try {
     return await auth.api.getSession({ headers: await headers() });
   } catch (error) {
-    // Vercel Logs-এ আসল কারণ দেখা যাবে
+
     console.error("[getSession] failed:", error);
-    return null;
+
+    throw new Error("Could not verify your session. Please try again.");
   }
 });
 
@@ -22,6 +23,8 @@ export async function requireUser() {
 
   if (!session) redirect("/signin");
   if (session.user.isBlocked) redirect("/blocked");
+
+  if (session.user.roleSelected === false) redirect("/redirect");
 
   return session.user;
 }
