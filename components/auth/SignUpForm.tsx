@@ -91,8 +91,8 @@ export default function SignUpForm() {
         email,
         password,
         image,
-        requestedRole: role,
-        callbackURL: "/redirect", // fixed: (auth) is a route group, not a URL segment
+        role,
+        callbackURL: "/redirect",
       });
 
       if (error) {

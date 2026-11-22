@@ -1,4 +1,3 @@
-// lib/auth.ts
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { jwt } from "better-auth/plugins";
@@ -18,9 +17,9 @@ export const auth = betterAuth({
 
   database: mongodbAdapter(db),
 
-  // সার্ভার "users" কালেকশন থেকে পড়ে
   user: {
     modelName: "users",
+
     additionalFields: {
       role: {
         type: "string",
@@ -28,19 +27,34 @@ export const auth = betterAuth({
         defaultValue: "customer",
         input: true,
       },
-      businessName: { type: "string", required: false, input: true },
+
+      roleSelected: {
+        type: "boolean",
+        required: false,
+        defaultValue: false,
+        input: false,
+      },
+
+      businessName: {
+        type: "string",
+        required: false,
+        input: true,
+      },
+
       isBlocked: {
         type: "boolean",
         required: false,
         defaultValue: false,
         input: false,
       },
+
       subscriptionPlan: {
         type: "string",
         required: false,
         defaultValue: "free",
         input: false,
       },
+
       subscriptionExpiresAt: {
         type: "date",
         required: false,
@@ -61,16 +75,24 @@ export const auth = betterAuth({
     },
   },
 
-  // পাবলিক সাইনআপে admin role কখনো তৈরি হবে না
   databaseHooks: {
     user: {
       create: {
         before: async (user) => {
-          const role = (user as { role?: string }).role;
+          const requestedRole = (user as { role?: string }).role;
+
+          const validRole = PUBLIC_ROLES.includes(requestedRole ?? "");
+
           return {
             data: {
               ...user,
-              role: PUBLIC_ROLES.includes(role ?? "") ? role : "customer",
+
+              role: validRole ? requestedRole : "customer",
+
+              // Email signup-এ role দেওয়া থাকলে নির্বাচন সম্পন্ন।
+              // Google signup-এ role না থাকলে পরে নির্বাচন করতে হবে।
+              roleSelected: validRole,
+
               isBlocked: false,
               subscriptionPlan: "free",
             },
@@ -88,7 +110,8 @@ export const auth = betterAuth({
         expirationTime: "1h",
       },
     }),
-    nextCookies(), // সবসময় শেষে
+
+    nextCookies(),
   ],
 });
 
