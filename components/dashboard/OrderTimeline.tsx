@@ -33,15 +33,19 @@ export default function OrderTimeline({ status }: { status: OrderStatus }) {
   ] as const;
 
   return (
-    <ol>
+    <ol className="w-full">
       {steps.map((step, i) => (
-        <li key={step.title} className="relative flex gap-4 pb-6 last:pb-0">
+        <li
+          key={step.title}
+          className="relative flex min-w-0 gap-3 pb-6 last:pb-0 sm:gap-4"
+        >
           {i < steps.length - 1 && (
             <span
               aria-hidden="true"
               className="absolute left-4 top-8 h-[calc(100%-1.5rem)] w-px bg-secondary"
             />
           )}
+
           <span
             className={cn(
               "relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full",
@@ -52,13 +56,20 @@ export default function OrderTimeline({ status }: { status: OrderStatus }) {
             )}
           >
             {step.state === "done" && <Check className="size-4" />}
+
             {step.state === "active" && (
               <span className="size-2 rounded-full bg-foreground" />
             )}
           </span>
-          <div>
-            <p className="font-medium">{step.title}</p>
-            <p className="text-sm text-muted-foreground">{step.text}</p>
+
+          <div className="min-w-0 flex-1">
+            <p className="break-words text-sm font-semibold sm:text-base">
+              {step.title}
+            </p>
+
+            <p className="mt-1 break-words text-xs leading-relaxed text-muted-foreground sm:text-sm">
+              {step.text}
+            </p>
           </div>
         </li>
       ))}
