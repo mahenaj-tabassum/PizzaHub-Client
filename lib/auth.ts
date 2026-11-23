@@ -3,47 +3,31 @@ import { APIError, createAuthMiddleware } from "better-auth/api";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { jwt } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
-import { MongoClient, type Db } from "mongodb";
+import { MongoClient } from "mongodb";
 
-/* ---------- MongoDB সংযোগ (আগের lib/mongodb.ts এর কাজ এখানে) ---------- */
+/* ---------- Environment ---------- */
 
 const uri = process.env.MONGODB_URI?.trim();
 const dbName = process.env.DB_NAME?.trim();
+const baseURL = (process.env.BETTER_AUTH_URL || "").trim().replace(/\/+$/, "");
+const authSecret = process.env.BETTER_AUTH_SECRET?.trim();
+const googleClientId = process.env.GOOGLE_CLIENT_ID?.trim();
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET?.trim();
 
 if (!uri) throw new Error("MONGODB_URI is missing");
 if (!dbName) throw new Error("DB_NAME is missing");
-
-type MongoGlobal = typeof globalThis & {
-  __pizzahubMongoClient?: MongoClient;
-};
-
-const globalMongo = globalThis as MongoGlobal;
-
-// একই runtime-এ একটিমাত্র MongoClient পুনরায় ব্যবহার হবে
-// (dev hot-reload ও serverless warm instance-এ বাড়তি কানেকশন এড়াতে)।
-const client =
-  globalMongo.__pizzahubMongoClient ??
-  new MongoClient(uri, {
-    maxPoolSize: 10,
-    minPoolSize: 0,
-    maxIdleTimeMS: 60_000,
-    serverSelectionTimeoutMS: 15_000,
-    connectTimeoutMS: 15_000,
-    socketTimeoutMS: 45_000,
-    retryWrites: true,
-  });
-
-if (!globalMongo.__pizzahubMongoClient) {
-  globalMongo.__pizzahubMongoClient = client;
+if (!baseURL) throw new Error("BETTER_AUTH_URL is missing");
+if (!authSecret) throw new Error("BETTER_AUTH_SECRET is missing");
+if (!googleClientId || !googleClientSecret) {
+  throw new Error("GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET is missing");
 }
 
-const db: Db = client.db(dbName);
+/* ---------- MongoDB ---------- */
+
+const client = new MongoClient(uri, { maxPoolSize: 10 });
+const db = client.db(dbName);
 
 /* ---------- Better Auth ---------- */
-
-const baseURL = (process.env.BETTER_AUTH_URL || "").trim().replace(/\/+$/, "");
-
-if (!baseURL) throw new Error("BETTER_AUTH_URL is missing");
 
 const PUBLIC_ROLES = ["vendor", "customer"];
 
@@ -58,7 +42,7 @@ const PROTECTED_FIELDS = [
 
 export const auth = betterAuth({
   baseURL,
-  secret: process.env.BETTER_AUTH_SECRET,
+  secret: authSecret,
   trustedOrigins: [baseURL],
 
   database: mongodbAdapter(db),
@@ -116,8 +100,8 @@ export const auth = betterAuth({
 
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: googleClientId,
+      clientSecret: googleClientSecret,
     },
   },
 
@@ -161,14 +145,8 @@ export const auth = betterAuth({
           return {
             data: {
               ...user,
-
-              // admin কখনোই পাবলিক সাইন-আপে তৈরি হবে না
               role: validRole ? requestedRole : "customer",
-
-              // Email signup-এ role দেওয়া থাকলে নির্বাচন সম্পন্ন।
-              // Google signup-এ role না থাকলে পরে নির্বাচন করতে হবে।
               roleSelected: validRole,
-
               isBlocked: false,
               subscriptionPlan: "free",
             },
