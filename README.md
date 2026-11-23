@@ -151,16 +151,6 @@ Flow: `MenuFilters` (debounced input) updates the URL with `router.replace` → 
 
 On the client, `app/dashboard/*/layout.tsx` calls `requireRole()` on the server, and `proxy.ts` provides a first-layer cookie check.
 
-## Folder Structure
-
-```
-app/            routes (public, auth, dashboard, payment, api)
-components/     ui, layout, home, menu, auth, dashboard, shared
-hooks/          data hooks (admin, vendor, orders, debounce)
-lib/            auth, api helpers, constants, validations, utils
-types/          shared TypeScript types
-proxy.ts        first-layer route guard
-```
 
 ## Deployment Notes
 
