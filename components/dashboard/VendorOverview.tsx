@@ -8,6 +8,7 @@ import {
   Clock,
   CreditCard,
   LayoutGrid,
+  UtensilsCrossed,
 } from "lucide-react";
 
 import CustomerCell from "@/components/dashboard/CustomerCell";
@@ -101,12 +102,9 @@ export default function VendorOverview({
             <div key={i} className="h-40 animate-pulse rounded-2xl bg-muted" />
           ))}
         </div>
-        <div className="mt-4 flex flex-col gap-4 sm:flex-row">
-          {Array.from({ length: 2 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-36 flex-1 animate-pulse rounded-2xl bg-muted"
-            />
+        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-36 animate-pulse rounded-2xl bg-muted" />
           ))}
         </div>
         <div className="mt-6 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
@@ -127,17 +125,17 @@ export default function VendorOverview({
     <>
       {heading}
 
-      {/* Top row: Active items, Pending items, Current plan */}
+      {/* Row 1: Total items, Active items, Current plan */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <StatCard
+          label="Total menu items"
+          value={s.totalItems}
+          icon={UtensilsCrossed}
+        />
         <StatCard
           label="Active menu items"
           value={s.activeItems}
           icon={LayoutGrid}
-        />
-        <StatCard
-          label="Pending menu items"
-          value={pendingItems}
-          icon={Clock}
         />
 
         {/* Current plan */}
@@ -189,22 +187,23 @@ export default function VendorOverview({
         </div>
       </div>
 
-      {/* Bottom row: Pending orders, Accepted orders (equal width) */}
-      <div className="mt-4 flex flex-col gap-4 sm:flex-row">
-        <div className="flex-1">
-          <StatCard
-            label="Pending orders"
-            value={s.pendingOrders}
-            icon={ClipboardList}
-          />
-        </div>
-        <div className="flex-1">
-          <StatCard
-            label="Accepted orders"
-            value={s.acceptedOrders}
-            icon={CheckCheck}
-          />
-        </div>
+      {/* Row 2: Pending items, Pending orders, Accepted orders */}
+      <div className="mt-4 grid gap-4 sm:grid-cols-3">
+        <StatCard
+          label="Pending menu items"
+          value={pendingItems}
+          icon={Clock}
+        />
+        <StatCard
+          label="Pending orders"
+          value={s.pendingOrders}
+          icon={ClipboardList}
+        />
+        <StatCard
+          label="Accepted orders"
+          value={s.acceptedOrders}
+          icon={CheckCheck}
+        />
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.6fr_1fr]">

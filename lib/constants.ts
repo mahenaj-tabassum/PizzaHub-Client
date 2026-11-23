@@ -4,7 +4,11 @@ export const CATEGORIES = [
   { label: "Classic Pizzas", short: "Classic", slug: "classic" },
   { label: "Vegetarian Pizzas", short: "Vegetarian", slug: "vegetarian" },
   { label: "Meat Lovers", short: "Meat Lovers", slug: "meat-lovers" },
-  { label: "Gourmet Pizzas", short: "Gourmet", slug: "specialty" },
+  {
+    label: "Specialty / Gourmet Pizzas",
+    short: "Gourmet",
+    slug: "specialty",
+  },
   { label: "Sides & Appetizers", short: "Sides", slug: "sides" },
   { label: "Beverages & Desserts", short: "Drinks", slug: "drinks" },
 ];
@@ -28,7 +32,6 @@ export const getDashboardPath = (role?: string | null) => {
   }
 };
 
-// Stripe এর Premium Price এর সাথে মিলিয়ে নিন (শুধু দেখানোর জন্য, আসল চার্জ Stripe এ নির্ধারিত)
 export const PREMIUM_PLAN = {
   price: "$9.99",
   interval: "month",

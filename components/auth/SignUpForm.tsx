@@ -27,6 +27,11 @@ export default function SignUpForm() {
 
   const passwordValid = isPasswordValid(password);
 
+  // Vendor হলে "Restaurant name", নইলে "Full name"
+  const isVendor = role === "vendor";
+  const nameLabel = isVendor ? "Restaurant name" : "Full name";
+  const namePlaceholder = isVendor ? "Your restaurant name" : "Your full name";
+
   // Free the preview object URL when it changes or the form unmounts
   useEffect(() => {
     return () => {
@@ -87,7 +92,7 @@ export default function SignUpForm() {
       }
 
       const { error } = await authClient.signUp.email({
-        name,
+        name: name.trim(),
         email,
         password,
         image,
@@ -137,14 +142,15 @@ export default function SignUpForm() {
               htmlFor="name"
               className="mb-2 block text-sm font-medium text-foreground"
             >
-              Full name
+              {nameLabel}
             </label>
             <input
               id="name"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Your full name"
+              placeholder={namePlaceholder}
+              autoComplete={isVendor ? "organization" : "name"}
               className="auth-input"
             />
           </div>
@@ -163,6 +169,7 @@ export default function SignUpForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
+              autoComplete="email"
               className="auth-input"
             />
           </div>
@@ -219,7 +226,9 @@ export default function SignUpForm() {
 
             <span className="min-w-0 flex-1">
               <span className="block text-sm font-medium text-foreground">
-                Profile image (optional)
+                {isVendor
+                  ? "Restaurant logo (optional)"
+                  : "Profile image (optional)"}
               </span>
               <span className="block text-xs text-muted-foreground">
                 PNG or JPG. You can skip this.

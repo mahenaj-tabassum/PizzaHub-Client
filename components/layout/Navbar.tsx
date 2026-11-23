@@ -7,16 +7,25 @@ import { ArrowRight } from "lucide-react";
 
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import { authClient } from "@/lib/auth-client";
+import { getDashboardPath } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import Logo from "./Logo";
 import MobileNav from "./MobileNav";
 import ProfileDropdown from "./ProfileDropdown";
 
-export const navLinks = [
-  { href: "/", label: "Home" },
+type NavItem = { href: string; label: string; exact?: boolean };
+
+export const navLinks: NavItem[] = [
+  { href: "/", label: "Home", exact: true },
   { href: "/menu", label: "Browse Menu" },
 ];
+
+const ROLE_LINK: Record<string, NavItem> = {
+  customer: { href: "/dashboard/customer/orders", label: "My Orders" },
+  vendor: { href: "/dashboard/vendor/items", label: "My Menu Items" },
+  admin: { href: "/dashboard/admin/users", label: "Manage Users" },
+};
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -45,9 +54,8 @@ export default function Navbar() {
     };
   }, []);
 
-  // Check active navigation link
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (item: NavItem) =>
+    item.exact ? pathname === item.href : pathname.startsWith(item.href);
 
   // Prepare user data for navigation components
   const navUser = user
@@ -59,6 +67,25 @@ export default function Navbar() {
       }
     : null;
 
+  // Logged-in users get role-based links
+  const roleLink = navUser
+    ? (ROLE_LINK[navUser.role] ?? ROLE_LINK.customer)
+    : null;
+
+  const mobileLinks: NavItem[] = roleLink ? [...navLinks, roleLink] : navLinks;
+
+  const desktopLinks: NavItem[] = navUser
+    ? [
+        ...navLinks,
+        {
+          href: getDashboardPath(navUser.role),
+          label: "Dashboard",
+          exact: true,
+        },
+        ...(roleLink ? [roleLink] : []),
+      ]
+    : navLinks;
+
   return (
     <header
       className={cn(
@@ -68,23 +95,21 @@ export default function Navbar() {
           : "border-transparent bg-primary",
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 md:grid md:grid-cols-3 md:px-6">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 md:grid md:grid-cols-[1fr_auto_1fr] md:px-6">
         {/* Logo */}
         <div className="flex items-center">
           <Logo />
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center justify-center gap-8 md:flex">
-          {navLinks.map((link) => (
+        <nav className="hidden items-center justify-center gap-6 md:flex lg:gap-8">
+          {desktopLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "text-sm transition-colors hover:text-white",
-                isActive(link.href)
-                  ? "font-semibold text-white"
-                  : "text-white/80",
+                "whitespace-nowrap text-sm transition-colors hover:text-white",
+                isActive(link) ? "font-semibold text-white" : "text-white/80",
               )}
             >
               {link.label}
@@ -124,7 +149,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Navigation */}
-          <MobileNav links={navLinks} user={navUser} isPending={isPending} />
+          <MobileNav links={mobileLinks} user={navUser} isPending={isPending} />
         </div>
       </div>
     </header>

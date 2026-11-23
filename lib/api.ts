@@ -11,18 +11,41 @@ function getApiUrl() {
   return API_URL;
 }
 
+async function request(url: string, init?: RequestInit) {
+  try {
+    return await fetch(url, init);
+  } catch {
+    throw new Error(
+      "Network error. Please check your connection and try again.",
+    );
+  }
+}
+
 async function parseResponse(response: Response) {
   const result = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(result?.message || "Something went wrong");
+    // Blocked হলে সরাসরি /blocked পেজে পাঠানো
+    if (
+      response.status === 403 &&
+      /blocked/i.test(result?.message ?? "") &&
+      typeof window !== "undefined" &&
+      window.location.pathname !== "/blocked"
+    ) {
+      window.location.href = "/blocked";
+    }
+
+    // Validation error হলে প্রথম আসল message দেখানো
+    throw new Error(
+      result?.errors?.[0]?.message || result?.message || "Something went wrong",
+    );
   }
   return result;
 }
 
 /** Public endpoints (no token), e.g. /api/menu */
 export const publicFetch = async (path: string, options: RequestInit = {}) => {
-  const response = await fetch(`${getApiUrl()}${path}`, options);
+  const response = await request(`${getApiUrl()}${path}`, options);
   return parseResponse(response);
 };
 
@@ -42,7 +65,7 @@ export const apiFetch = async (path: string, options: RequestInit = {}) => {
     headers.set("Content-Type", "application/json");
   }
 
-  const response = await fetch(`${getApiUrl()}${path}`, {
+  const response = await request(`${getApiUrl()}${path}`, {
     ...options,
     headers,
   });

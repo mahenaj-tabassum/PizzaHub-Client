@@ -45,7 +45,6 @@ export default function MenuCard({ item }: { item: MenuItem }) {
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        {/* <p className="text-xs text-muted-foreground"> */}
         <p className="text-xs font-medium text-accent">
           {getCategoryLabel(item.category)}
         </p>
@@ -62,7 +61,7 @@ export default function MenuCard({ item }: { item: MenuItem }) {
         </p>
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-4">
-          <span className="font-heading text-lg font-bold text-primary">
+          <span className="font-heading text-lg font-bold text-brand">
             {formatPrice(item.price)}
           </span>
 

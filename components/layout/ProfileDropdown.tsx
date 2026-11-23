@@ -68,6 +68,8 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
       <button
         type="button"
         onClick={() => setOpen(!open)}
+        aria-haspopup="menu"
+        aria-expanded={open}
         className="flex items-center gap-2 rounded-full border border-white/20 p-1.5 pr-3 text-white transition hover:bg-white/10"
       >
         {user.image ? (
@@ -126,7 +128,7 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
                 className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition hover:bg-muted"
               >
                 <UserRound size={18} />
-                Profile
+                Profile Settings
               </Link>
 
               <button

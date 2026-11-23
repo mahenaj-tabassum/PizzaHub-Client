@@ -33,6 +33,11 @@ const STATUS_OPTIONS = [
   { value: "expired", label: "Expired" },
 ];
 
+// Checkout রো-তে stripeSessionId থাকে, রিনিউয়াল (invoice) রো-তে থাকে stripeInvoiceId।
+// কোনোটাই না থাকলেও যেন পেজ ক্র্যাশ না করে।
+const getReference = (t: AdminTransaction) =>
+  t.stripeSessionId || t.stripeInvoiceId || "";
+
 const columns: Column<AdminTransaction>[] = [
   {
     key: "vendor",
@@ -47,13 +52,15 @@ const columns: Column<AdminTransaction>[] = [
   {
     key: "amount",
     header: "Amount",
-    cell: (t) => formatAmount(t.amount, t.currency),
+    cell: (t) => formatAmount(t.amount ?? 0, t.currency ?? "usd"),
     className: "whitespace-nowrap font-medium",
   },
   {
     key: "status",
     header: "Status",
-    cell: (t) => <Pill tone={STATUS_TONE[t.status]}>{t.status}</Pill>,
+    cell: (t) => (
+      <Pill tone={STATUS_TONE[t.status] ?? "muted"}>{t.status}</Pill>
+    ),
   },
   {
     key: "date",
@@ -62,16 +69,24 @@ const columns: Column<AdminTransaction>[] = [
     className: "whitespace-nowrap",
   },
   {
-    key: "session",
-    header: "Stripe session",
-    cell: (t) => (
-      <code
-        title={t.stripeSessionId}
-        className="whitespace-nowrap font-mono text-xs text-muted-foreground"
-      >
-        {t.stripeSessionId.slice(0, 18)}…
-      </code>
-    ),
+    key: "reference",
+    header: "Stripe reference",
+    cell: (t) => {
+      const ref = getReference(t);
+
+      if (!ref) {
+        return <span className="text-muted-foreground">—</span>;
+      }
+
+      return (
+        <code
+          title={ref}
+          className="whitespace-nowrap font-mono text-xs text-muted-foreground"
+        >
+          {ref.length > 18 ? `${ref.slice(0, 18)}…` : ref}
+        </code>
+      );
+    },
   },
 ];
 
@@ -84,7 +99,7 @@ export default function AdminTransactions() {
     const completed = transactions.filter((t) => t.status === "completed");
     return {
       currency: transactions[0]?.currency ?? "usd",
-      revenue: completed.reduce((sum, t) => sum + t.amount, 0),
+      revenue: completed.reduce((sum, t) => sum + (t.amount ?? 0), 0),
       completed: completed.length,
       other: transactions.length - completed.length,
     };

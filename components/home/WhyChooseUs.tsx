@@ -40,7 +40,7 @@ const WhyChooseUs = () => {
           {features.map(({ icon: Icon, title, text }, i) => (
             <Reveal key={title} delay={i * 0.08} className="h-full">
               <div className="h-full rounded-xl bg-card p-6 shadow-sm ring-1 ring-foreground/10">
-                <span className="flex size-10 items-center justify-center rounded-lg bg-secondary/25 text-primary">
+                <span className="flex size-10 items-center justify-center rounded-lg bg-secondary/25 text-brand">
                   <Icon className="size-5" />
                 </span>
                 <h3 className="mt-5 font-heading text-lg font-semibold">
@@ -54,7 +54,7 @@ const WhyChooseUs = () => {
           ))}
         </div>
       </div>
-    </section> 
+    </section>
   );
 };
 

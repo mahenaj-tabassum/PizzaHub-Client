@@ -12,7 +12,7 @@ export type ImageEntry = {
 };
 
 const MAX_IMAGES = 4;
-const MAX_SIZE = 5 * 1024 * 1024;
+const MAX_SIZE = 4 * 1024 * 1024;
 
 const rowClass =
   "flex items-center gap-4 rounded-2xl border border-dashed border-secondary bg-secondary/10 p-4";
@@ -61,7 +61,7 @@ export default function ImageUpload({
       return;
     }
     if (file.size > MAX_SIZE) {
-      toast.error("Image must be 5 MB or smaller.");
+      toast.error("Image must be 4 MB or smaller.");
       return;
     }
 

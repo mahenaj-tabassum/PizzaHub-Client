@@ -19,7 +19,7 @@ export default function SectionHeading({
         <p
           className={cn(
             "mb-2 text-xs font-medium",
-            light ? "text-secondary" : "text-primary",
+            light ? "text-secondary" : "text-brand",
           )}
         >
           {eyebrow}

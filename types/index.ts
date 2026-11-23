@@ -237,7 +237,8 @@ export interface AdminTransaction {
   plan: "premium";
   amount: number; // cents
   currency: string;
-  stripeSessionId: string;
+  stripeSessionId?: string; // invoice-ভিত্তিক রো-তে থাকে না
+  stripeInvoiceId?: string; // রিনিউয়াল পেমেন্টে থাকে
   stripeSubscriptionId?: string;
   status: TransactionStatus;
   createdAt: string;

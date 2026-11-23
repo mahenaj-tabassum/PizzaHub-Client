@@ -1,12 +1,13 @@
 import { z } from "zod";
 import { CATEGORIES } from "@/lib/constants";
 
-export const todayString = () => {
-  const d = new Date();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${d.getFullYear()}-${month}-${day}`;
-};
+export const todayString = () =>
+  new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Dhaka",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
 
 export const orderSchema = z.object({
   deliveryDate: z
