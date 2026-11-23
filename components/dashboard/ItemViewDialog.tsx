@@ -9,6 +9,7 @@ import DetailRow from "@/components/shared/DetailRow";
 import { getCategoryLabel } from "@/lib/constants";
 import { formatPrice, formatShortDate } from "@/lib/utils";
 import type { MenuItem } from "@/types";
+import DescriptionRenderer from "../menu/DescriptionRenderer";
 
 type ViewableItem = Pick<
   MenuItem,
@@ -101,9 +102,9 @@ export default function ItemViewDialog({
               </dl>
 
               {item.description && (
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  {item.description}
-                </p>
+                <div className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                  <DescriptionRenderer description={item.description} />
+                </div>
               )}
 
               {item.status === "rejected" && (

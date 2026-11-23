@@ -11,6 +11,7 @@ import { getMenuItem } from "@/lib/api-server";
 import { getCategoryLabel } from "@/lib/constants";
 import { requireUser } from "@/lib/session";
 import { cn, formatPrice } from "@/lib/utils";
+import DescriptionRenderer from "@/components/menu/DescriptionRenderer";
 
 type Params = Promise<{ id: string }>;
 
@@ -96,9 +97,9 @@ export default async function ItemDetailsPage({ params }: { params: Params }) {
           </p>
 
           {item.description && (
-            <p className="mt-5 leading-relaxed text-muted-foreground">
-              {item.description}
-            </p>
+            <div className="mt-5 leading-relaxed text-muted-foreground">
+              <DescriptionRenderer description={item.description} />
+            </div>
           )}
 
           <div className="mt-6">
